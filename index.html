@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>IRIS PROYECTOS</title>
+
+  <!-- Fuentes -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+
+<header class="header">
+  <div class="header-content">
+
+    <!-- LOGO -->
+    <div class="logo">
+      <img src="img/logo.png" alt="IRIS PROYECTOS">
+    </div>
+
+    <!-- MENÚ -->
+    <nav class="menu">
+      <a href="#modelos">Modelos 3D</a>
+      <a href="#servicios">Servicios</a>
+      <a href="#conocenos">Conócenos</a>
+    </nav>
+
+  </div>
+</header>
+
+<section class="empresa">
+
+  <div class="empresa-contenedor">
+
+    <!-- IZQUIERDA -->
+    <div class="empresa-texto">
+
+
+    <h3 class="descripcion-destacada">
+        <span class="resaltar">Soluciones geoespaciales</span> integrales mediante 
+        <span class="resaltar">fotogrametría</span>, 
+        <span class="resaltar">topografía</span> y 
+        <span class="resaltar">cartografía</span>, impulsadas por 
+        <span class="resaltar">tecnología de vanguardia</span>.
+    </h3>
+    </div>
+    <!-- DERECHA (CARRUSEL) -->
+    <div class="empresa-carrusel">
+      <img src="img/imagen1.jpg" class="activa">
+      <img src="img/imagen2.jpg">
+      <img src="img/imagen3.jpg">
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- Carga model-viewer -->
+<script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+
+<section id="modelos" class="seccion">
+  <h2 class="titulo">MODELOS 3D</h2>
+
+  <div class="visor-wrapper">
+
+    <button class="nav prev" onclick="cambiarModelo(-1)">‹</button>
+
+    <model-viewer
+      id="visor3d"
+      src="modelos/modelo1.glb"
+      alt="Modelo 3D"
+      auto-rotate
+      camera-controls
+      shadow-intensity="1"
+      exposure="1"
+      ar
+      ar-modes="webxr scene-viewer quick-look">
+    </model-viewer>
+
+    <button class="nav next" onclick="cambiarModelo(1)">›</button>
+
+  </div>
+
+  <p id="descripcion" class="descripcion">
+    Modelo 3D - Levantamiento fotogramétrico
+  </p>
+</section>
+
+
+
+  <!-- SECCIÓN SERVICIOS -->
+  <section id="servicios" class="seccion">
+    <h2 class="titulo">SERVICIOS</h2>
+
+    <div class="contenedor">
+
+      <!-- CARD 1 -->
+      <div class="card">
+        <h3>Levantamientos con dron</h3>
+        <p>
+            Captura de información aérea mediante drones para la generación de productos geoespaciales de alta precisión como ortofotos, modelos digitales y reconstrucciones 3D.
+        </p>
+        <button>Ver más</button>
+      </div>
+
+      <!-- CARD 2 -->
+      <div class="card">
+        <h3>Topografía</h3>
+        <p>
+          Levantamientos topográficos con GNSS de alta precisión, deslindes,
+          lotización y generación de planos para proyectos de ingeniería.
+        </p>
+        <button>Ver más</button>
+      </div>
+
+      <!-- CARD 3 -->
+      <div class="card">
+        <h3>Cartografía</h3>
+        <p>
+          Elaboración de mapas personalizados adaptados a necesidades específicas,
+          ideales para análisis territorial y presentación de proyectos.
+        </p>
+        <button>Ver más</button>
+      </div>
+
+    </div>
+  </section>
+
+    <section id="conocenos" class="seccion">
+    <h2 class="titulo">CONOCENOS</h2>
+    <p>Desarrollamos soluciones geoespaciales mediante la integración de fotogrametría, topografía y cartografía digital. Aplicamos tecnologías avanzadas como drones, procesamiento 3D y análisis espacial para generar productos precisos y funcionales, adaptados a las necesidades de proyectos de ingeniería, territorio y desarrollo.</p>
+    </section>
+<script src="script.js"></script>
+</body>
+</html>
