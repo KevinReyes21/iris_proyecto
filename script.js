@@ -7,8 +7,12 @@ const modelos = [
   {
     url: "modelos/modelo2.glb",
     texto: "Modelo 3D - Levantamiento topográfico"
+  },
+  {
+    url: "modelos/modelo3.glb",
+    texto: "Modelo 3D - Levantamiento fotogramétrico"
   }
-];
+];  
 
 let index = 0;
 
