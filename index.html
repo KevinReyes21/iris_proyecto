@@ -22,12 +22,14 @@
 
     <!-- MENÚ -->
     <nav class="menu">
-      <a href="#modelos">Modelos 3D</a>
+      <a href="#trabajos">trabajos</a>
       <a href="#servicios">Servicios</a>
       <a href="#conocenos">Conócenos</a>
     </nav>
 
   </div>
+
+  
 </header>
 
 <section class="empresa">
@@ -36,21 +38,44 @@
 
     <!-- IZQUIERDA -->
     <div class="empresa-texto">
+      <div class="badge">TOPOGRAFIA · FOTOGRAMETRÍA · CARTOGRAFÍA</div>
 
 
-    <h3 class="descripcion-destacada">
-        <span class="resaltar">Soluciones geoespaciales</span> integrales mediante 
-        <span class="resaltar">fotogrametría</span>, 
-        <span class="resaltar">topografía</span> y 
-        <span class="resaltar">cartografía</span>, impulsadas por 
-        <span class="resaltar">tecnología de vanguardia</span>.
-    </h3>
+    <h1 class="descripcion-destacada">
+        <span class="resaltar brillo">Soluciones geoespaciales</span> integrales mediante 
+        <span class="resaltar brillo">fotogrametría</span>, 
+        <span class="resaltar brillo">topografía</span> y 
+        <span class="resaltar brillo">cartografía</span>, impulsadas por 
+        <span class="resaltar brillo">tecnología de vanguardia</span>.
+    </h1>
     </div>
-    <!-- DERECHA (CARRUSEL) -->
-    <div class="empresa-carrusel">
-      <img src="img/imagen1.jpg" class="activa">
-      <img src="img/imagen2.jpg">
-      <img src="img/imagen3.jpg">
+
+    <!-- DERECHA (MODEL VIEWER) -->
+    <div class="empresa-visor">
+
+      <div class="visor-wrapper">
+        <button class="nav prev" onclick="cambiarModelo(-1)">‹</button>
+
+        <model-viewer
+          id="visor3d"
+          src="modelos/modelo1.glb"
+          alt="Modelo 3D"
+          auto-rotate
+          camera-controls
+          shadow-intensity="1"
+          exposure="1"
+          ar
+          ar-modes="webxr scene-viewer quick-look">
+        </model-viewer>
+
+        <button class="nav next" onclick="cambiarModelo(1)">›</button>
+      </div>
+
+      <!-- DESCRIPCIÓN DEBAJO DEL VISOR -->
+      <p id="descripcion" class="descripcion">
+        Modelo 3D - Levantamiento fotogramétrico
+      </p>
+
     </div>
 
   </div>
@@ -61,35 +86,21 @@
 <!-- Carga model-viewer -->
 <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
 
-<section id="modelos" class="seccion">
-  <h2 class="titulo">MODELOS 3D</h2>
+<section id="trabajos" class="seccion">
+  <h2 class="titulo">TRABAJOS</h2>
 
-  <div class="visor-wrapper">
+<div class="empresa-carrusel">
+  <div class="carrusel-track">
+    <img src="img/imagen1.jpg">
+    <img src="img/imagen2.jpg">
+    <img src="img/imagen3.jpg">
 
-    <button class="nav prev" onclick="cambiarModelo(-1)">‹</button>
-
-    <model-viewer
-      id="visor3d"
-      src="modelos/modelo1.glb"
-      alt="Modelo 3D"
-      auto-rotate
-      camera-controls
-      shadow-intensity="1"
-      exposure="1"
-      ar
-      ar-modes="webxr scene-viewer quick-look">
-    </model-viewer>
-
-    <button class="nav next" onclick="cambiarModelo(1)">›</button>
-
+    <!-- duplicadas para efecto infinito -->
+    <img src="img/imagen1.jpg">
+    <img src="img/imagen2.jpg">
+    <img src="img/imagen3.jpg">
   </div>
-
-  <p id="descripcion" class="descripcion">
-    Modelo 3D - Levantamiento fotogramétrico
-  </p>
-</section>
-
-
+</div>
 
   <!-- SECCIÓN SERVICIOS -->
   <section id="servicios" class="seccion">

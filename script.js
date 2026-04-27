@@ -38,13 +38,4 @@ function cambiarModelo(direccion) {
 }
 
 
-const imagenes = document.querySelectorAll(".empresa-carrusel img");
-let index1 = 0;
 
-setInterval(() => {
-  imagenes[index1].classList.remove("activa");
-
-  index1 = (index1 + 1) % imagenes.length;
-
-  imagenes[index1].classList.add("activa");
-}, 3000); // cambia cada 3 segundos
