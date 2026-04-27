@@ -10,7 +10,7 @@ const modelos = [
   },
   {
     url: "modelos/modelo3.glb",
-    texto: "Modelo 3D - Levantamiento fotogramétrico"
+    texto: "Modelo 3D - Harbor, Merida - Yucatan"
   }
 ];  
 
