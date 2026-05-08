@@ -2,7 +2,7 @@
 const modelos = [
   {
     url: "modelos/modelo1.glb",
-    texto: "Modelo 3D - Zona arqueológica"
+    texto: "Modelo 3D - Puente"
   },
   {
     url: "modelos/modelo2.glb",
