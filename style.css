@@ -88,21 +88,44 @@
     flex-wrap: wrap; /* permite que bajen si no caben */
   }
 
-  /* CARDS */
-  .card {
-    flex: 1 1 300px; /* mínimo 300px */
-    background-color: #F5F7FA;
-    padding: 25px;
-    border-radius: 10px;
 
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+.card {
+  flex: 1 1 300px;
+  padding: 25px;
+  border-radius: 10px;
 
-    border: 1px solid #ddd;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-  }
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 
+  border: 1px solid rgb(255, 255, 255);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+  /* ESTAS SON LAS CLAVES */
+  background-size: cover;
+  background-position: center;
+
+  /* OVERLAY OSCURO encima de la imagen */
+  position: relative;
+}
+
+/* El overlay se pone con ::before */
+.card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55); /* ajusta la opacidad a tu gusto */
+  border-radius: 10px;
+  z-index: 0;
+}
+
+/* El contenido queda ENCIMA del overlay */
+.card h3,
+.card p,
+.card button {
+  position: relative;
+  z-index: 1;
+}
   /* HOVER PRO */
   .card:hover {
     transform: translateY(-8px);
@@ -111,13 +134,14 @@
 
   /* TEXTO */
   .card h3 {
-    color: #1E3A5F;
+    color: #ffffff;
     margin-bottom: 10px;
   }
 
   .card p {
     flex-grow: 1;
     line-height: 1.5;
+    color: #ffffff;
   }
 
   /* BOTÓN */
@@ -382,4 +406,62 @@
   margin-bottom: 15px;     /* espacio con el texto */
 
   text-transform: uppercase;
+}
+
+/* SCROLL REVEAL */
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+#conocenos {
+  background-image: url('img/dron.jpeg');
+  background-size: cover;
+  background-position: center;
+
+  position: relative;
+  max-height: 400px;
+  overflow: hidden;
+  padding: 60px 20px;
+
+  border-radius: 20px; /* ajusta a tu gusto */
+  margin: 0 20px;      /* para que no quede pegado a los bordes de la página */
+}
+
+
+
+
+#conocenos::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.60);
+  z-index: 0;
+}
+
+/* CONTENIDO ENCIMA DEL OVERLAY */
+#conocenos .titulo,
+#conocenos p {
+  position: relative;
+  z-index: 1;
+  color: #ffffff;
+}
+
+
+
+#conocenos.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 1s ease, transform 1s ease;
+}
+
+#conocenos.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
 }
