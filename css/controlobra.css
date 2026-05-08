@@ -1,0 +1,63 @@
+/* HERO */
+.servicio-hero {
+  background-color: #0E2940;
+  padding: 60px 40px;
+  text-align: center;
+}
+
+.servicio-hero .titulo {
+  color: #ffffff;
+  font-size: 2.5rem;
+  border-color: #2ECC71;
+}
+
+.servicio-descripcion {
+  max-width: 800px;
+  margin: 0 auto 20px auto;
+  color: rgba(255,255,255,0.85);
+  font-size: 1rem;
+  line-height: 1.8;
+  text-align: left;
+}
+
+/* HERRAMIENTAS */
+.servicio-herramientas {
+  padding: 60px 40px;
+  background-color: #ffffff;
+}
+
+.subtitulo-seccion {
+  font-family: 'Montserrat', sans-serif;
+  color: #1E3A5F;
+  font-size: 1.2rem;
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.herramientas-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  justify-content: center;
+  max-width: 900px;
+  margin: 0 auto 30px auto;
+}
+
+.herramienta-item {
+  background-color: #F5F7FA;
+  border-left: 3px solid #2ECC71;
+  border-radius: 5px;
+  padding: 12px 20px;
+  font-size: 0.95rem;
+  color: #1E3A5F;
+  flex: 1 1 250px;
+}
+
+.servicio-integracion {
+  max-width: 800px;
+  margin: 0 auto;
+  text-align: center;
+  color: #555;
+  font-size: 0.95rem;
+  line-height: 1.8;
+}
