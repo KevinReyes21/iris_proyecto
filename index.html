@@ -2,60 +2,68 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>IRIS PROYECTOS</title>
-
-  <!-- Fuentes -->
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
-
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700&display=swap">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
+  <!-- Cursor -->
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-ring" id="cursor-ring"></div>
 
-<header class="header">
-  <div class="header-content">
+  <!-- Partículas -->
+  <canvas id="particles-canvas"></canvas>
 
-    <!-- LOGO -->
-    <div class="logo">
-      <img src="img/logo.png" alt="IRIS PROYECTOS">
-    </div>
-
-    <!-- MENÚ -->
-    <nav class="menu">
+  <!-- ─── HEADER ─── -->
+  <header class="header" id="header">
+    <a href="#" class="logo-text">IRIS <span>GEOESPACIAL</span></a>
+    <nav class="nav">
       <a href="#trabajos">Trabajos</a>
       <a href="#servicios">Servicios</a>
       <a href="#conocenos">Conócenos</a>
     </nav>
+  </header>
 
-  </div>
-
-  
-</header>
-
-<section class="empresa">
-
-  <div class="empresa-contenedor" >
-
-    <!-- IZQUIERDA -->
-    <div class="empresa-texto">
-      <div class="badge">TOPOGRAFIA · FOTOGRAMETRÍA · CARTOGRAFÍA</div>
-
-
-    <h1 class="descripcion-destacada">
-        <span class="resaltar brillo">Soluciones geoespaciales</span> integrales mediante 
-        <span class="resaltar brillo">fotogrametría</span>, 
-        <span class="resaltar brillo">topografía</span> y 
-        <span class="resaltar brillo">cartografía</span>, impulsadas por 
-        <span class="resaltar brillo">tecnología de vanguardia</span>.
+  <!-- ─── HERO ─── -->
+  <section class="hero">
+    <p class="hero-tag reveal">Topografía · Fotogrametría · Cartografía</p>
+    <h1 class="reveal reveal-delay-1">
+      Precisión<br>geoespacial <em>al<br>más alto nivel</em>
     </h1>
+    <p class="hero-sub reveal reveal-delay-2">
+      Soluciones integrales mediante fotogrametría, topografía y cartografía digital, impulsadas por tecnología de vanguardia.
+    </p>
+    <div class="hero-cta reveal reveal-delay-3">
+      <a href="#servicios" class="btn-primary">Ver servicios</a>
+      <a href="#conocenos" class="btn-ghost">
+        Conócenos
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
     </div>
+    <div class="hero-scroll-hint">
+      <div class="scroll-line"></div>
+      Scroll
+    </div>
+  </section>
 
-    <!-- DERECHA (MODEL VIEWER) -->
-    <div class="empresa-visor">
-
-      <div class="visor-wrapper">
-        <button class="nav prev" onclick="cambiarModelo(-1)">‹</button>
-
+  <!-- ─── VISOR 3D ─── -->
+  <section class="visor-section">
+    <div class="section-label reveal">Modelos 3D</div>
+    <div class="visor-layout">
+      <div class="visor-info reveal from-left">
+        <h2>Visualización<br><em>tridimensional</em></h2>
+        <p>Explorá nuestros modelos 3D generados a partir de levantamientos fotogramétricos de alta precisión. Cada modelo refleja el rigor técnico aplicado en campo.</p>
+        <div class="visor-controls">
+          <button class="nav-btn" onclick="cambiarModelo(-1)">&#8249;</button>
+          <button class="nav-btn" onclick="cambiarModelo(1)">&#8250;</button>
+        </div>
+        <p id="descripcion" class="modelo-nombre">Modelo 3D — Puente</p>
+      </div>
+      <div class="visor-container reveal from-right reveal-delay-1">
         <model-viewer
           id="visor3d"
           src="modelos/modelo1.glb"
@@ -64,85 +72,116 @@
           camera-controls
           shadow-intensity="1"
           exposure="1"
-          ar
-          ar-modes="webxr scene-viewer quick-look">
+          ar ar-modes="webxr scene-viewer quick-look">
         </model-viewer>
-
-        <button class="nav next" onclick="cambiarModelo(1)">›</button>
       </div>
-
-      <!-- DESCRIPCIÓN DEBAJO DEL VISOR -->
-      <p id="descripcion" class="descripcion">
-        Modelo 3D - Puente
-      </p>
-
     </div>
+  </section>
 
-  </div>
+  <!-- ─── TRABAJOS ─── -->
+  <section id="trabajos" class="trabajos-section">
+    <div class="trabajos-header">
+      <div class="section-label reveal">Trabajos realizados</div>
+    </div>
+    <div class="carrusel-wrap reveal">
+      <div class="carrusel-track">
+        <img src="img/imagen1.jpg" alt="">
+        <img src="img/imagen2.jpg" alt="">
+        <img src="img/imagen3.jpg" alt="">
+        <!-- duplicadas para efecto infinito -->
+        <img src="img/imagen1.jpg" alt="">
+        <img src="img/imagen2.jpg" alt="">
+        <img src="img/imagen3.jpg" alt="">
+      </div>
+    </div>
+  </section>
 
-</section>
+  <!-- ─── SERVICIOS ─── -->
+  <section id="servicios" class="servicios-section">
+    <div class="section-label reveal">Qué hacemos</div>
+    <div class="servicios-grid">
 
-
-<!-- Carga model-viewer -->
-<script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
-
-<section id="trabajos" class="seccion">
-  <h2 class="titulo">TRABAJOS</h2>
-
-<div class="empresa-carrusel">
-  <div class="carrusel-track">
-    <img src="img/imagen1.jpg">
-    <img src="img/imagen2.jpg">
-    <img src="img/imagen3.jpg">
-
-    <!-- duplicadas para efecto infinito -->
-    <img src="img/imagen1.jpg">
-    <img src="img/imagen2.jpg">
-    <img src="img/imagen3.jpg">
-  </div>
-</div>
-
-  <!-- SECCIÓN SERVICIOS -->
-  <section id="servicios" class="seccion">
-    <h2 class="titulo">SERVICIOS</h2>
-
-    <div class="contenedor">
-
-      <!-- CARD 1 -->
-      <div class="card" style="background-image: url('img/control_obra.jpg');">
-        <h3>Control de obra con levantamientos fotogrametricos</h3>
-        <p>
-            Mapas, modelos 3D y Modelos digistales de elevaciones con curvas de nivel, que permitan ver los avances de obra de manera precisa.
-        </p>
-          <button onclick="window.location.href='controlobra.html'">Ver más</button>
+      <div class="servicio-card reveal reveal-delay-1" style="--bg-img: url('img/control_obra.jpg')">
+        <span class="card-num">01</span>
+        <div class="card-body">
+          <h3>Control de obra fotogramétrico</h3>
+          <p>Mapas, modelos 3D y modelos digitales de elevaciones con curvas de nivel para seguimiento preciso de avances de obra.</p>
+          <a href="controlobra.html" class="card-link">
+            Ver más
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
+              <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </a>
+        </div>
       </div>
 
-      <!-- CARD 2 -->
-      <div class="card" style="background-image: url('img/inmobiliaria.webp');">
-        <h3>Geomática y Fotogrametría Aérea para el Sector Inmobiliario</h3>
-        <p>
-          Un mapa de mayor escala donde marques distancias reales a avenidas principales, centros comerciales o playas cercanas, todo sobre una base fotográfica de alta resolución. 
-        </p>
-          <button onclick="window.location.href='inmobiliaria.html'">Ver más</button>
+      <div class="servicio-card reveal reveal-delay-2" style="--bg-img: url('img/inmobiliaria.webp')">
+        <span class="card-num">02</span>
+        <div class="card-body">
+          <h3>Geomática para sector inmobiliario</h3>
+          <p>Fotografía aérea de alta resolución, mapas a escala con distancias reales a puntos de interés y análisis territorial.</p>
+          <a href="inmobiliaria.html" class="card-link">
+            Ver más
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
+              <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </a>
+        </div>
       </div>
 
-      <!-- CARD 3 -->
-      <div class="card" style="background-image: url('img/cartografia.jpg');">
-        <h3>Cartografía especializada</h3>
-        <p>
-          Elaboración de mapas personalizados adaptados a necesidades específicas,
-          ideales para análisis territorial y presentación de proyectos.
-        </p>
-          <button onclick="window.location.href='cartografiaespecializada.html'">Ver más</button>
+      <div class="servicio-card reveal reveal-delay-3" style="--bg-img: url('img/cartografia.jpg')">
+        <span class="card-num">03</span>
+        <div class="card-body">
+          <h3>Cartografía especializada</h3>
+          <p>Elaboración de mapas personalizados adaptados a necesidades específicas, para análisis territorial y presentación de proyectos.</p>
+          <a href="cartografiaespecializada.html" class="card-link">
+            Ver más
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
+              <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </a>
+        </div>
       </div>
 
     </div>
   </section>
 
-  <section id="conocenos" class="seccion reveal">
-    <h2 class="titulo reveal">CONÓCENOS</h2>
-    <p class="reveal">Desarrollamos soluciones geoespaciales mediante la integración de fotogrametría, topografía y cartografía digital. Aplicamos tecnologías avanzadas como drones, procesamiento 3D y análisis espacial para generar productos precisos y funcionales, adaptados a las necesidades de proyectos de ingeniería, territorio y desarrollo.</p>
+  <!-- ─── CONÓCENOS ─── -->
+  <section id="conocenos" class="conocenos-section">
+    <div class="section-label reveal">Sobre nosotros</div>
+    <div class="conocenos-grid">
+      <div class="conocenos-texto reveal from-left">
+        <h2>Tecnología<br>al servicio de<br>la <em>precisión</em></h2>
+        <p>Desarrollamos soluciones geoespaciales mediante la integración de fotogrametría, topografía y cartografía digital. Aplicamos tecnologías avanzadas como drones, procesamiento 3D y análisis espacial para generar productos precisos y funcionales, adaptados a las necesidades de proyectos de ingeniería, territorio y desarrollo.</p>
+      </div>
+      <div class="stats-grid reveal from-right reveal-delay-1">
+        <div class="stat-item">
+          <div class="stat-num">+0<span>k</span></div>
+          <div class="stat-label">Hectáreas mapeadas</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">+0</div>
+          <div class="stat-label">Proyectos entregados</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">0<span>+</span></div>
+          <div class="stat-label">Años de experiencia</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num"></div>
+          <div class="stat-label">Sectores atendidos</div>
+        </div>
+      </div>
+    </div>
   </section>
-<script src="script.js"></script>
+
+  <!-- ─── FOOTER ─── -->
+  <footer>
+    <div class="footer-logo">IRIS PROYECTOS</div>
+    <div class="footer-copy">© 2025 — Todos los derechos reservados</div>
+  </footer>
+
+  <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
