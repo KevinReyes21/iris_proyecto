@@ -2,81 +2,204 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Control de Obra - IRIS PROYECTOS</title>
-
-  <!-- Fuentes -->
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
-
-  <link rel="stylesheet" href="style.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Control de Obra — IRIS Geoespacial</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/controlobra.css">
 </head>
 <body>
 
-  <header class="header reveal">
-    <div class="header-content">
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-ring" id="cursor-ring"></div>
+  <canvas id="particles-canvas"></canvas>
 
-      <!-- LOGO -->
-      <div class="logo">
-        <img src="img/logo.png" alt="IRIS PROYECTOS">
+  <!-- ─── HEADER ─── -->
+  <header class="header" id="header">
+    <a href="index.html" class="logo-text">IRIS <span>GEOESPACIAL</span></a>
+    <nav class="nav">
+      <a href="index.html#trabajos">Trabajos</a>
+      <a href="index.html#servicios">Servicios</a>
+      <a href="index.html#conocenos">Conócenos</a>
+    </nav>
+  </header>
+<!-- ─── HERO ─── -->
+<section class="hero">
+
+  <!-- VIDEO FONDO -->
+  <video autoplay muted loop playsinline
+    style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; z-index:0;">
+    <source src="video/controlobra.mp4" type="video/mp4">
+  </video>
+
+  <!-- OVERLAY: blanco opaco izquierda, transparente derecha -->
+  <div style="position:absolute; inset:0; z-index:1;
+    background: linear-gradient(to right,
+      rgba(255,255,255,1) 0%,
+      rgba(255,255,255,0.95) 35%,
+      rgba(255,255,255,0.5) 65%,
+      rgba(255,255,255,0) 100%);"></div>
+
+  <!-- CONTENIDO (z-index encima del overlay) -->
+ <p class="hero-tag reveal" style="position:relative; z-index:2;">Servicio — Control de Obra</p>
+  <h1 class="reveal reveal-delay-1" style="position:relative; z-index:2;">
+    Monitoreo aéreo<br><em>de obra en tiempo real</em>
+  </h1>
+  <p class="hero-sub reveal reveal-delay-2" style="position:relative; z-index:2;">
+    Seguimiento fotogramétrico profesional para obras en desarrollo. Vuelos programados, comparativas de avance y análisis geoespacial periódico para tomar decisiones con información precisa.
+  </p>
+  <a href="#paquete" class="btn-primary reveal reveal-delay-3" 
+     style="position:relative; z-index:2; width:fit-content;">Ver paquete</a>
+
+  <div class="hero-scroll-hint" style="position:absolute; z-index:2;">
+    <div class="scroll-line"></div>
+    Scroll
+  </div>
+
+</section>
+
+  <!-- ─── PAQUETE PRINCIPAL ─── -->
+  <section id="paquete" class="paquete-section">
+    <div class="section-label reveal">Paquete disponible</div>
+
+    <!-- CABECERA DEL PAQUETE -->
+    <div class="paquete-header reveal reveal-delay-1">
+      <div class="paquete-num">01</div>
+      <div class="paquete-info">
+        <h2>Monitoreo Aéreo <em>Executive</em></h2>
+        <p>Paquete diseñado para proporcionar control visual y análisis geoespacial periódico de proyectos constructivos mediante vuelos programados y comparativas de avance entre distintas etapas de obra.</p>
+      </div>
+      <div class="paquete-precio">
+        <span class="precio-num">$10,000 — $45,000</span>
+        <span class="precio-label">MXN / mensualidad</span>
+        <span class="precio-nota">Variable según superficie y frecuencia</span>
+      </div>
+    </div>
+
+    <!-- GRID DE ENTREGABLES -->
+    <div class="entregables-grid">
+
+      <div class="entregable-item reveal reveal-delay-1">
+        <div class="entregable-icon">
+          <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+            <path d="M16 4L28 10V22L16 28L4 22V10L16 4Z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/>
+            <circle cx="16" cy="16" r="4" stroke="currentColor" stroke-width="1.2"/>
+          </svg>
+        </div>
+        <h3>Vuelo fotogramétrico programado</h3>
+        <p>Ejecución bajo la misma configuración y trayectoria para garantizar comparativas precisas entre levantamientos.</p>
       </div>
 
-      <!-- MENÚ -->
-      <nav class="menu">
-        <a href="index.html#trabajos">Trabajos</a>
-        <a href="index.html#servicios">Servicios</a>
-        <a href="index.html#conocenos">Conócenos</a>
-      </nav>
+      <div class="entregable-item reveal reveal-delay-2">
+        <div class="entregable-icon">
+          <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+            <rect x="4" y="4" width="24" height="24" rx="2" stroke="currentColor" stroke-width="1.2"/>
+            <path d="M4 12h24M12 4v24" stroke="currentColor" stroke-width="1.2"/>
+            <circle cx="20" cy="20" r="3" stroke="currentColor" stroke-width="1.2"/>
+          </svg>
+        </div>
+        <h3>Ortomosaico de alta resolución</h3>
+        <p>Con puntos de control terrestre (GCPs) para precisión centimétrica sobre toda la superficie del proyecto.</p>
+      </div>
+
+      <div class="entregable-item reveal reveal-delay-3">
+        <div class="entregable-icon">
+          <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+            <path d="M4 24L12 14l6 6 4-8 6 12" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="12" cy="14" r="2" fill="currentColor"/>
+            <circle cx="18" cy="20" r="2" fill="currentColor"/>
+            <circle cx="22" cy="12" r="2" fill="currentColor"/>
+          </svg>
+        </div>
+        <h3>Comparativa de avance de obra</h3>
+        <p>Identificación visual y técnica de avances de construcción, cambios de terreno y evolución respecto al vuelo anterior.</p>
+      </div>
+
+      <div class="entregable-item reveal reveal-delay-1">
+        <div class="entregable-icon">
+          <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+            <rect x="6" y="4" width="20" height="24" rx="2" stroke="currentColor" stroke-width="1.2"/>
+            <path d="M10 10h12M10 15h12M10 20h8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <h3>Plano PDF de avance</h3>
+        <p>Listo para envío digital, reportes ejecutivos o presentación ante clientes, dirección de obra o inversionistas.</p>
+      </div>
+
+      <div class="entregable-item reveal reveal-delay-2">
+        <div class="entregable-icon">
+          <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+            <path d="M6 6l20 0M6 12l12 0M6 18l16 0M6 24l10 0" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+            <circle cx="24" cy="22" r="5" stroke="currentColor" stroke-width="1.2"/>
+            <path d="M22 22l1.5 1.5L26 20" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <h3>10 — 15 fotografías profesionales</h3>
+        <p>Imágenes aéreas editadas profesionalmente documentando el avance de obra en cada visita.</p>
+      </div>
+
+      <div class="entregable-item reveal reveal-delay-3">
+        <div class="entregable-icon">
+          <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+            <circle cx="16" cy="16" r="11" stroke="currentColor" stroke-width="1.2"/>
+            <path d="M16 8v8l5 3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <h3>Repetibilidad garantizada</h3>
+        <p>Misma configuración de vuelo en cada sesión para asegurar comparativas fiables a lo largo del tiempo.</p>
+      </div>
 
     </div>
-  </header>
 
-  <!-- CONTENIDO DE LA PÁGINA -->
-  <main id="contenido">
+    <!-- FRECUENCIAS -->
+    <div class="frecuencias-wrap reveal">
+      <div class="frecuencias-label">Frecuencias de monitoreo disponibles</div>
+      <div class="frecuencias-grid">
 
-    <!-- HERO / DESCRIPCIÓN GENERAL -->
-    <section class="servicio-hero reveal">
-    <div class="badge reveal">CONTROL DE OBRA · FOTOGRAMETRÍA UAV</div>
-    <h1 class="titulo reveal">CONTROL DE OBRA</h1>
-    <p class="servicio-descripcion reveal">
-        El servicio de Control de Obra con Levantamientos Fotogramétricos consiste en el monitoreo 
-        técnico y visual de proyectos de construcción, infraestructura y desarrollo territorial 
-        mediante el uso de tecnología UAV (drones) y procesamiento geomático especializado.
-    </p>
-    <p class="servicio-descripcion reveal">
-        A través de vuelos fotogramétricos programados de manera periódica, se obtiene información 
-        geoespacial de alta precisión que permite documentar, analizar y supervisar el avance físico 
-        de la obra durante las diferentes etapas del proyecto.
-    </p>
-    <p class="servicio-descripcion reveal">
-        La periodicidad de los levantamientos se establece conforme a los requerimientos del cliente 
-        y a la dinámica operativa de la obra, definiendo fechas de monitoreo dentro de un periodo 
-        previamente acordado entre ambas partes.
-    </p>
-    </section>
+        <div class="frecuencia-card reveal reveal-delay-1">
+          <div class="frec-ciclo">7 días</div>
+          <div class="frec-nombre">Semanal</div>
+          <div class="frec-desc">Máximo control para obras con alta actividad y ritmo acelerado de construcción.</div>
+        </div>
 
-    <!-- LISTA DE HERRAMIENTAS -->
-    <section class="servicio-herramientas">
-    <h2 class="subtitulo-seccion reveal">Este servicio proporciona una herramienta integral para:</h2>
+        <div class="frecuencia-card frecuencia-card--mid reveal reveal-delay-2">
+          <div class="frec-badge">Recomendada</div>
+          <div class="frec-ciclo">15 días</div>
+          <div class="frec-nombre">Quincenal</div>
+          <div class="frec-desc">Balance ideal entre costo y control. Cubre la mayoría de proyectos constructivos.</div>
+        </div>
 
-    <div class="herramientas-grid">
-        <div class="herramienta-item reveal">Supervisión de avances constructivos</div>
-        <div class="herramienta-item reveal">Comparación temporal del progreso de obra</div>
-        <div class="herramienta-item reveal">Control volumétrico y topográfico</div>
-        <div class="herramienta-item reveal">Generación de evidencia técnica y visual</div>
-        <div class="herramienta-item reveal">Apoyo en toma de decisiones</div>
-        <div class="herramienta-item reveal">Elaboración de reportes ejecutivos y técnicos</div>
-        <div class="herramienta-item reveal">Integración de información para ingeniería, planeación y control administrativo</div>
+        <div class="frecuencia-card reveal reveal-delay-3">
+          <div class="frec-ciclo">30 días</div>
+          <div class="frec-nombre">Mensual</div>
+          <div class="frec-desc">Para proyectos de largo plazo con avances graduales o menor ritmo constructivo.</div>
+        </div>
+
+      </div>
     </div>
 
-    <p class="servicio-integracion reveal">
-        La información generada puede integrarse en entornos <span class="resaltar">CAD</span> y
-        <span class="resaltar">SIG</span>.
+    <!-- NOTA DE PRECIO -->
+    <p class="precio-detalle reveal">
+      * El costo mensual varía según la superficie total del proyecto (hectáreas), frecuencia de monitoreo seleccionada y condiciones de acceso al sitio. Contáctanos para un presupuesto personalizado.
     </p>
-    </section>
 
-  </main>
+  </section>
+
+  <!-- ─── CTA FINAL ─── -->
+  <section class="cta-section reveal">
+    <div class="cta-contenido">
+      <h2>¿Listo para monitorear<br><em>tu obra con precisión?</em></h2>
+      <p>Cuéntanos sobre tu proyecto y te preparamos una propuesta a medida.</p>
+      <a href="index.html#conocenos" class="btn-primary">Solicitar propuesta</a>
+    </div>
+  </section>
+
+  <!-- ─── FOOTER ─── -->
+  <footer>
+    <div class="footer-logo">IRIS GEOESPACIAL</div>
+    <a href="index.html" class="footer-back">← Volver al inicio</a>
+    <div class="footer-copy">© 2025 — Todos los derechos reservados</div>
+  </footer>
 
   <script src="js/controlobra.js"></script>
-
 </body>
 </html>

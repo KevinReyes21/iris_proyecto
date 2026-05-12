@@ -14,7 +14,7 @@
   --verde:      rgb(0, 200, 150);
   --azul:       #0057b8;
 
---font-display: 'Exo 2', sans-serif;
+  --font-display: 'Exo 2', sans-serif;
   --font-body:    'DM Sans', sans-serif;
 
   --ease-smooth: cubic-bezier(0.25, 0.46, 0.45, 0.94);
@@ -98,13 +98,25 @@ body {
 
 /* ─── HERO ─── */
 .hero {
-  position: relative; z-index: 1;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
   min-height: 100vh;
-  display: flex; flex-direction: column;
+  display: flex;
+  flex-direction: column;
   justify-content: center;
-  padding: 120px 80px 80px;
+  align-items: flex-start;
+  padding: 0 48px 0 80px;
   border-bottom: 1px solid var(--gris-300);
 }
+
+.hero h1 {
+  font-family: var(--font-display);
+  font-size: clamp(3rem, 6vw, 6rem);
+  font-weight: 300; line-height: 1.1;
+  color: var(--blanco); max-width: 750px; margin-bottom: 32px;
+}
+.hero h1 em { font-style: italic; color: var(--verde); }
 
 .hero-tag {
   font-size: 0.7rem; letter-spacing: 5px;

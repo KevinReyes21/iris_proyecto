@@ -26,26 +26,43 @@
     </nav>
   </header>
 
-  <!-- ─── HERO ─── -->
-  <section class="hero">
-    <div class="hero-contenido">
-      <p class="hero-tag reveal">Servicio — Sector Inmobiliario</p>
-      <h1 class="reveal reveal-delay-1">
-        Geomática para el<br><em>sector inmobiliario</em>
-      </h1>
-      <p class="hero-sub reveal reveal-delay-2">
-        Fotogrametría aérea de alta resolución, mapas a escala con distancias reales y análisis territorial profesional.
-      </p>
-      <p class="hero-sub reveal reveal-delay-3">
-        Soluciones visuales y técnicas orientadas a constructoras, desarrolladores y propietarios que requieren presentar, analizar y comercializar terrenos, lotes o propiedades con información aérea precisa y de alto impacto visual.
-      </p>
-      <a href="#paquetes" class="btn-primary reveal reveal-delay-4">Ver paquetes</a>
-    </div>
-    <div class="hero-scroll-hint">
-      <div class="scroll-line"></div>
-      Scroll
-    </div>
-  </section>
+<!-- ─── HERO ─── -->
+<section class="hero">
+
+  <!-- VIDEO FONDO -->
+  <video autoplay muted loop playsinline
+    style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; z-index:0;">
+    <source src="video/inmobiliaria.mp4" type="video/mp4">
+  </video>
+
+  <!-- OVERLAY -->
+  <div style="position:absolute; inset:0; z-index:1;
+    background: linear-gradient(to right,
+      rgba(255,255,255,1) 0%,
+      rgba(255,255,255,0.95) 35%,
+      rgba(255,255,255,0.5) 65%,
+      rgba(255,255,255,0) 100%);"></div>
+
+  <!-- CONTENIDO -->
+  <p class="hero-tag reveal" style="position:relative; z-index:2;">Servicio — Sector Inmobiliario</p>
+  <h1 class="reveal reveal-delay-1" style="position:relative; z-index:2;">
+    Geomática para el<br><em>sector inmobiliario</em>
+  </h1>
+  <p class="hero-sub reveal reveal-delay-2" style="position:relative; z-index:2;">
+    Fotogrametría aérea de alta resolución, mapas a escala con distancias reales y análisis territorial profesional.
+  </p>
+  <p class="hero-sub reveal reveal-delay-3" style="position:relative; z-index:2;">
+    Soluciones visuales y técnicas orientadas a constructoras, desarrolladores y propietarios que requieren presentar, analizar y comercializar terrenos con información aérea precisa.
+  </p>
+  <a href="#paquetes" class="btn-primary reveal reveal-delay-4"
+     style="position:relative; z-index:2; width:fit-content;">Ver paquetes</a>
+
+  <div class="hero-scroll-hint" style="position:absolute; z-index:2;">
+    <div class="scroll-line"></div>
+    Scroll
+  </div>
+
+</section>
 
   <!-- ─── TABLA COMPARATIVA ─── -->
   <section id="paquetes" class="paquetes-section">
