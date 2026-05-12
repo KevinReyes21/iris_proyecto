@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Geomática Inmobiliaria — IRIS Geoespacial</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/inmobiliaria.css">
+</head>
+<body>
+
+  <!-- Cursor -->
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-ring" id="cursor-ring"></div>
+
+  <!-- Partículas -->
+  <canvas id="particles-canvas"></canvas>
+
+  <!-- ─── HEADER ─── -->
+  <header class="header" id="header">
+    <a href="index.html" class="logo-text">IRIS <span>GEOESPACIAL</span></a>
+    <nav class="nav">
+      <a href="index.html#trabajos">Trabajos</a>
+      <a href="index.html#servicios">Servicios</a>
+      <a href="index.html#conocenos">Conócenos</a>
+    </nav>
+  </header>
+
+  <!-- ─── HERO ─── -->
+  <section class="hero">
+    <div class="hero-contenido">
+      <p class="hero-tag reveal">Servicio — Sector Inmobiliario</p>
+      <h1 class="reveal reveal-delay-1">
+        Geomática para el<br><em>sector inmobiliario</em>
+      </h1>
+      <p class="hero-sub reveal reveal-delay-2">
+        Fotogrametría aérea de alta resolución, mapas a escala con distancias reales y análisis territorial profesional.
+      </p>
+      <p class="hero-sub reveal reveal-delay-3">
+        Soluciones visuales y técnicas orientadas a constructoras, desarrolladores y propietarios que requieren presentar, analizar y comercializar terrenos, lotes o propiedades con información aérea precisa y de alto impacto visual.
+      </p>
+      <a href="#paquetes" class="btn-primary reveal reveal-delay-4">Ver paquetes</a>
+    </div>
+    <div class="hero-scroll-hint">
+      <div class="scroll-line"></div>
+      Scroll
+    </div>
+  </section>
+
+  <!-- ─── TABLA COMPARATIVA ─── -->
+  <section id="paquetes" class="paquetes-section">
+    <div class="section-label reveal">Paquetes disponibles</div>
+    <h2 class="section-titulo reveal reveal-delay-1">Elige el nivel<br><em>que tu proyecto necesita</em></h2>
+
+    <div class="tabla-wrap reveal reveal-delay-2">
+      <table class="tabla-comparativa">
+
+        <!-- ENCABEZADOS -->
+        <thead>
+          <tr>
+            <th class="col-feature">Características</th>
+            <th class="col-plan">
+              <div class="plan-num">01</div>
+              <div class="plan-nombre">Vista Aérea<br>Esencial</div>
+              <div class="plan-desc">Ideal para terrenos, casas y lotes pequeños</div>
+              <div class="plan-precio">$6,000 — $12,000 <span>MXN</span></div>
+            </th>
+            <th class="col-plan col-plan--mid">
+              <div class="plan-badge">Más popular</div>
+              <div class="plan-num">02</div>
+              <div class="plan-nombre">Análisis Territorial<br>Plus</div>
+              <div class="plan-desc">Solución intermedia para promoción y análisis técnico</div>
+              <div class="plan-precio">$20,000 — $30,000 <span>MXN</span></div>
+            </th>
+            <th class="col-plan col-plan--premium">
+              <div class="plan-num">03</div>
+              <div class="plan-nombre">Precisión Geoespacial<br>Premium</div>
+              <div class="plan-desc">Solución integral de alta precisión para desarrollos</div>
+              <div class="plan-precio">$40,000 — $60,000 <span>MXN</span></div>
+            </th>
+          </tr>
+        </thead>
+
+        <tbody>
+
+          <!-- GRUPO: VUELO -->
+          <tr class="grupo-label">
+            <td colspan="4">Vuelo y captura</td>
+          </tr>
+          <tr>
+            <td class="feature-name">Tipo de vuelo fotogramétrico</td>
+            <td>Básico (precisión visual)</td>
+            <td class="col-mid">Básico (precisión visual)</td>
+            <td class="col-premium">Optimizado con GCPs<br><span class="feature-note">Precisión centimétrica</span></td>
+          </tr>
+          <tr>
+            <td class="feature-name">Fotografías aéreas editadas</td>
+            <td>8 — 12 fotos</td>
+            <td class="col-mid">18 — 20 fotos</td>
+            <td class="col-premium">25 — 30 fotos</td>
+          </tr>
+
+          <!-- GRUPO: PLANOS -->
+          <tr class="grupo-label">
+            <td colspan="4">Planos y cartografía</td>
+          </tr>
+          <tr>
+            <td class="feature-name">Ortomosaico con límite del terreno</td>
+            <td><span class="si">✓</span></td>
+            <td class="col-mid"><span class="si">✓</span></td>
+            <td class="col-premium"><span class="si">✓</span></td>
+          </tr>
+          <tr>
+            <td class="feature-name">Escala gráfica y norte geográfico</td>
+            <td><span class="si">✓</span></td>
+            <td class="col-mid"><span class="si">✓</span></td>
+            <td class="col-premium"><span class="si">✓</span></td>
+          </tr>
+          <tr>
+            <td class="feature-name">Dimensiones y área total</td>
+            <td><span class="no">—</span></td>
+            <td class="col-mid"><span class="si">✓</span></td>
+            <td class="col-premium"><span class="si">✓</span></td>
+          </tr>
+          <tr>
+            <td class="feature-name">Colindancias y accesos principales</td>
+            <td><span class="no">—</span></td>
+            <td class="col-mid"><span class="si">✓</span></td>
+            <td class="col-premium"><span class="si">✓</span></td>
+          </tr>
+          <tr>
+            <td class="feature-name">Cuadro de coordenadas de vértices</td>
+            <td><span class="no">—</span></td>
+            <td class="col-mid"><span class="no">—</span></td>
+            <td class="col-premium"><span class="si">✓</span></td>
+          </tr>
+
+          <!-- GRUPO: ELEVACIÓN -->
+          <tr class="grupo-label">
+            <td colspan="4">Modelos de elevación</td>
+          </tr>
+          <tr>
+            <td class="feature-name">Modelo Digital de Elevaciones (MDE)</td>
+            <td><span class="no">—</span></td>
+            <td class="col-mid"><span class="si">✓</span></td>
+            <td class="col-premium"><span class="si">✓</span></td>
+          </tr>
+          <tr>
+            <td class="feature-name">Curvas de nivel (20 cm y 1 m)</td>
+            <td><span class="no">—</span></td>
+            <td class="col-mid"><span class="no">—</span></td>
+            <td class="col-premium"><span class="si">✓</span></td>
+          </tr>
+          <tr>
+            <td class="feature-name">Modelo Digital de Terreno (MDT)<br><span class="feature-note">Con limpieza de vegetación</span></td>
+            <td><span class="no">—</span></td>
+            <td class="col-mid"><span class="no">—</span></td>
+            <td class="col-premium"><span class="si">✓</span></td>
+          </tr>
+
+          <!-- GRUPO: MULTIMEDIA -->
+          <tr class="grupo-label">
+            <td colspan="4">Multimedia y entregables</td>
+          </tr>
+          <tr>
+            <td class="feature-name">Video aéreo</td>
+            <td><span class="no">—</span></td>
+            <td class="col-mid">~30 seg, edición básica</td>
+            <td class="col-premium">1 min, edición avanzada</td>
+          </tr>
+          <tr>
+            <td class="feature-name">Modelo 3D interactivo (.GLB)</td>
+            <td><span class="no">—</span></td>
+            <td class="col-mid"><span class="no">—</span></td>
+            <td class="col-premium"><span class="si">✓</span></td>
+          </tr>
+          <tr>
+            <td class="feature-name">Archivo PDF listo para impresión</td>
+            <td><span class="si">✓</span></td>
+            <td class="col-mid"><span class="si">✓</span></td>
+            <td class="col-premium"><span class="si">✓</span></td>
+          </tr>
+
+          <!-- CTA -->
+          <tr class="fila-cta">
+            <td></td>
+            <td>
+              <a href="index.html#conocenos" class="btn-tabla">Solicitar</a>
+            </td>
+            <td class="col-mid">
+              <a href="index.html#conocenos" class="btn-tabla btn-tabla--mid">Solicitar</a>
+            </td>
+            <td class="col-premium">
+              <a href="index.html#conocenos" class="btn-tabla btn-tabla--premium">Solicitar</a>
+            </td>
+          </tr>
+
+        </tbody>
+      </table>
+    </div>
+
+    <!-- NOTA -->
+    <p class="tabla-nota reveal">
+      * Los precios son referenciales y pueden variar según la extensión del predio, condiciones de acceso y requerimientos específicos del proyecto. Contáctanos para un presupuesto personalizado.
+    </p>
+
+  </section>
+
+  <!-- ─── FOOTER ─── -->
+  <footer>
+    <div class="footer-logo">IRIS GEOESPACIAL</div>
+    <a href="index.html" class="footer-back">← Volver al inicio</a>
+    <div class="footer-copy">© 2025 — Todos los derechos reservados</div>
+  </footer>
+
+  <script src="js/inmobiliaria.js"></script>
+</body>
+</html>
