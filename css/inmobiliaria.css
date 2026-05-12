@@ -6,12 +6,12 @@
   --gris-300:   #d0d0d0;
   --gris-400:   #aaaaaa;
   --gris-500:   #777777;
-  --blanco:     #0a0a0a;
+  --blanco:     #3f3f3f;
   --plata:      #383838;
   --plata-viva: #181818;
   --acento:     #484848;
 
-  --verde:      #00c896;
+  --verde:      rgb(0, 200, 150);
   --azul:       #0057b8;
 
 --font-display: 'Exo 2', sans-serif;

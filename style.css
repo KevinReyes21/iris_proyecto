@@ -23,6 +23,8 @@
 
 html { scroll-behavior: smooth; }
 
+
+
 body {
   font-family: var(--font-body);
   background-color: var(--negro);
@@ -484,4 +486,202 @@ footer {
   .servicios-grid { grid-template-columns: 1fr; }
   footer { flex-direction: column; gap: 16px; text-align: center; }
   .nav { gap: 24px; }
+}
+
+/* ─── CONTACTO FLOTANTE ─── */
+
+.floating-contact {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+
+  z-index: 9999;
+
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.float-btn {
+  position: relative;
+
+  width: 54px;
+  height: 54px;
+
+  border-radius: 999px;
+
+  display: flex;
+  align-items: center;
+
+  overflow: hidden;
+
+  text-decoration: none;
+
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+
+background: rgba(255,255,255,0.25);
+
+border: 1px solid rgba(255,255,255,0.10);
+
+box-shadow:
+  0 4px 20px rgba(0,0,0,0.18),
+  inset 0 1px 0 rgba(255,255,255,0.08);
+
+  transition:
+    transform 0.3s var(--ease-expo),
+    background 0.3s;
+
+  isolation: isolate;
+}
+.float-btn::before {
+  content: '';
+
+  position: absolute;
+  inset: 0;
+
+  border-radius: 999px;
+
+  opacity: 0;
+
+  transition:
+    opacity 0.35s ease,
+    transform 0.35s ease;
+
+  transform: scale(0.8);
+
+  z-index: -1;
+}
+
+.float-btn:hover::before {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.float-btn svg {
+  width: 22px;
+  height: 22px;
+
+  min-width: 22px;
+
+  margin-left: 16px;
+
+  color: white;
+
+  z-index: 2;
+}
+
+.float-btn span {
+  margin-left: 16px;
+
+  white-space: nowrap;
+
+  font-size: 0.72rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+
+  color: white;
+
+  opacity: 0;
+
+  transition: opacity 0.3s ease;
+
+  z-index: 2;
+}
+
+.float-btn:hover span {
+  opacity: 1;
+}
+
+/* backgrounds reales */
+
+/* WhatsApp */
+
+.whatsapp::before {
+  background:
+    linear-gradient(
+      135deg,
+      rgba(0,200,150,0.55),
+      rgba(0,200,150,0.18)
+    );
+}
+
+/* Instagram */
+
+.instagram::before {
+  background:
+    linear-gradient(
+      135deg,
+      rgba(225,48,108,0.55),
+      rgba(131,58,180,0.18)
+    );
+}
+
+/* Mail */
+
+.mail::before {
+  background:
+    linear-gradient(
+      135deg,
+      rgba(0,87,184,0.55),
+      rgba(0,87,184,0.18)
+    );
+}
+/* Colores */
+
+.whatsapp {
+  background: rgba(0, 200, 150, 0.18);
+}
+
+.whatsapp:hover {
+  background: rgba(0, 200, 150, 0.3);
+}
+
+.instagram {
+  background: rgba(225, 48, 108, 0.18);
+}
+
+.instagram:hover {
+  background: rgba(225, 48, 108, 0.3);
+}
+
+.mail {
+  background: rgba(0, 87, 184, 0.18);
+}
+
+.mail:hover {
+  background: rgba(0, 87, 184, 0.3);
+}
+
+/* móvil */
+
+@media (max-width: 768px) {
+
+.floating-contact {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+
+  z-index: 9999;
+
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 14px;
+}
+
+.float-btn:hover {
+  transform: translateX(-6px);
+
+  border-color: rgba(255,255,255,0.18);
+
+  box-shadow:
+    0 8px 30px rgba(0,0,0,0.28),
+    0 0 18px rgba(255,255,255,0.06);
+}
+
+  .float-btn span {
+    display: none;
+  }
+
 }
