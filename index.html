@@ -25,30 +25,46 @@
       <a href="#conocenos">Conócenos</a>
     </nav>
   </header>
+<!-- ─── HERO ─── -->
+<section class="hero">
 
-  <!-- ─── HERO ─── -->
-  <section class="hero">
-    <p class="hero-tag reveal">Topografía · Fotogrametría · Cartografía</p>
-    <h1 class="reveal reveal-delay-1">
-      Precisión<br>geoespacial <em>al<br>más alto nivel</em>
-    </h1>
-    <p class="hero-sub reveal reveal-delay-2">
-      Soluciones integrales mediante fotogrametría, topografía y cartografía digital, impulsadas por tecnología de vanguardia.
-    </p>
-    <div class="hero-cta reveal reveal-delay-3">
-      <a href="#servicios" class="btn-primary">Ver servicios</a>
-      <a href="#conocenos" class="btn-ghost">
-        Conócenos
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-          <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-      </a>
-    </div>
-    <div class="hero-scroll-hint">
-      <div class="scroll-line"></div>
-      Scroll
-    </div>
-  </section>
+  <!-- VIDEO FONDO -->
+  <video autoplay muted loop playsinline
+    style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; z-index:0;">
+    <source src="video/hero.mp4" type="video/mp4">
+  </video>
+
+  <!-- OVERLAY: blanco opaco izquierda, transparente derecha -->
+  <div style="position:absolute; inset:0; z-index:1;
+    background: linear-gradient(to right,
+      rgba(255,255,255,1) 0%,
+      rgba(255,255,255,0.95) 35%,
+      rgba(255,255,255,0.5) 65%,
+      rgba(255,255,255,0) 100%);"></div>
+
+  <!-- CONTENIDO (z-index encima del overlay) -->
+  <p class="hero-tag reveal" style="position:relative; z-index:2;">Topografía · Fotogrametría · Cartografía</p>
+  <h1 class="reveal reveal-delay-1" style="position:relative; z-index:2;">
+    Precisión<br>geoespacial <em>al<br>más alto nivel</em>
+  </h1>
+  <p class="hero-sub reveal reveal-delay-2" style="position:relative; z-index:2;">
+    Soluciones integrales mediante fotogrametría, topografía y cartografía digital, impulsadas por tecnología de vanguardia.
+  </p>
+  <div class="hero-cta reveal reveal-delay-3" style="position:relative; z-index:2;">
+    <a href="#servicios" class="btn-primary">Ver servicios</a>
+    <a href="#conocenos" class="btn-ghost">
+      Conócenos
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+        <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </a>
+  </div>
+  <div class="hero-scroll-hint" style="position:absolute; z-index:2;">
+    <div class="scroll-line"></div>
+    Scroll
+  </div>
+
+</section>
 
   <!-- ─── VISOR 3D ─── -->
   <section class="visor-section">

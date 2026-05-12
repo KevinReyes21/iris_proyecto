@@ -6,7 +6,7 @@
   --gris-300:   #cbd5e0;
   --gris-400:   #718096;
   --gris-500:   #4a5568;
-  --blanco:     #000000;
+  --blanco:     #3e3e3e;
   --plata:      #00c896;
   --plata-viva: rgb(31, 218, 87);
   --acento:     #00a87a;
@@ -90,7 +90,7 @@ body {
   font-weight: 400;
   letter-spacing: 3px;
   text-transform: uppercase;
-  color: var(--gris-500);
+  color: #ffffff;
   text-decoration: none;
   transition: color 0.3s;
   position: relative;
