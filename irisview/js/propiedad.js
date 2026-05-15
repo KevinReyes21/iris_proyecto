@@ -424,7 +424,7 @@ legend.onAdd = function () {
 
   return div;
 };
-
+legend.addTo(detailMap);
 // =========================
 // VIDEO CINEMATIC
 // =========================

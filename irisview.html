@@ -3,25 +3,101 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-
   <title>IRISVIEW</title>
-
-  <!-- Leaflet -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
-
-  <!-- CSS -->
   <link rel="stylesheet" href="css/irisview.css">
 </head>
 <body>
-
-  <!-- MAPA -->
-  <div id="map"></div>
-
-  <!-- Leaflet -->
+ 
+  <!-- ─── INTRO OVERLAY ─── -->
+  <div id="introOverlay" class="intro-overlay">
+    <div class="intro-box">
+      <div class="intro-tag">Plataforma interactiva</div>
+      <h1>Explora el territorio<br>antes de recorrerlo.</h1>
+      <p>IRISVIEW integra cartografía interactiva, fotografía aérea, modelos tridimensionales y análisis geoespacial para ofrecer una experiencia visual moderna enfocada en desarrollos inmobiliarios.</p>
+      <div class="intro-benefits">
+        <div class="intro-benefit"><span>01</span><strong>Mapas interactivos</strong></div>
+        <div class="intro-benefit"><span>02</span><strong>Visualización 3D</strong></div>
+        <div class="intro-benefit"><span>03</span><strong>Puntos de interés reales</strong></div>
+      </div>
+      <button id="enterBtn" class="intro-btn">Entrar al visor interactivo</button>
+    </div>
+  </div>
+ 
+  <!-- ─── LAYOUT PRINCIPAL ─── -->
+  <div class="visor-layout">
+ 
+    <!-- ─── SIDEBAR ─── -->
+    <aside class="sidebar" id="sidebar">
+ 
+      <!-- HEADER SIDEBAR -->
+      <div class="sidebar-header">
+        <div class="sidebar-logo">IRIS<span>VIEW</span></div>
+        <button class="sidebar-toggle" id="sidebarToggle" title="Cerrar panel">&#8249;</button>
+      </div>
+ 
+      <!-- FILTROS -->
+      <div class="sidebar-section">
+        <div class="sidebar-label">Filtros</div>
+ 
+        <!-- TIPO -->
+        <div class="filter-group">
+          <div class="filter-title">Tipo de propiedad</div>
+          <div class="filter-chips">
+            <button class="chip chip--active" data-filter="tipo" data-value="todos">Todos</button>
+            <button class="chip" data-filter="tipo" data-value="casa">Casa</button>
+            <button class="chip" data-filter="tipo" data-value="lote">Lote</button>
+          </div>
+        </div>
+ 
+        <!-- DESTACADOS -->
+        <div class="filter-group">
+          <label class="filter-toggle">
+            <input type="checkbox" id="filtroDestacado">
+            <span class="toggle-track">
+              <span class="toggle-thumb"></span>
+            </span>
+            <span class="toggle-label">Solo destacados</span>
+          </label>
+        </div>
+ 
+        <!-- PRECIO -->
+        <div class="filter-group">
+          <div class="filter-title">Precio máximo</div>
+          <input type="range" id="filtroPrecio" class="range-slider"
+            min="500000" max="5000000" step="100000" value="5000000">
+          <div class="range-value">Hasta <span id="precioLabel">$5,000,000</span> MXN</div>
+        </div>
+ 
+        <!-- SUPERFICIE -->
+        <div class="filter-group">
+          <div class="filter-title">Superficie mínima</div>
+          <input type="range" id="filtroSuperficie" class="range-slider"
+            min="0" max="500" step="10" value="0">
+          <div class="range-value">Desde <span id="superficieLabel">0</span> m²</div>
+        </div>
+ 
+        <!-- BOTÓN LIMPIAR -->
+        <button class="btn-limpiar" id="btnLimpiar">Limpiar filtros</button>
+      </div>
+ 
+      <!-- LISTA DE PROPIEDADES -->
+      <div class="sidebar-section">
+        <div class="sidebar-label">Propiedades <span id="contadorProps" class="contador">0</span></div>
+        <div class="props-list" id="propsList"></div>
+      </div>
+ 
+    </aside>
+ 
+    <!-- BOTÓN ABRIR SIDEBAR (cuando está cerrado) -->
+    <button class="sidebar-open-btn" id="sidebarOpenBtn" title="Abrir panel">&#8250;</button>
+ 
+    <!-- ─── MAPA ─── -->
+    <div id="map"></div>
+ 
+  </div>
+ 
   <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-
-  <!-- JS -->
   <script src="js/irisview.js"></script>
-
 </body>
 </html>
