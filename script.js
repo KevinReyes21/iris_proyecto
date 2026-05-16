@@ -123,9 +123,18 @@ function cambiarModelo(dir) {
   visor.style.transition = 'opacity 0.3s, filter 0.3s';
   setTimeout(() => {
     idx = (idx + dir + modelos.length) % modelos.length;
-    visor.src = modelos[idx].url;
-    document.getElementById('descripcion').textContent = modelos[idx].texto;
-    visor.style.opacity = '1';
-    visor.style.filter  = 'blur(0)';
+    
+    // Liberar modelo anterior de la memoria
+    const oldSrc = visor.src;
+    visor.src = '';           // Quitar modelo actual
+    visor.removeAttribute('src');
+    
+    // Pequeña pausa para que la GPU libere memoria
+    setTimeout(() => {
+      visor.src = modelos[idx].url;
+      document.getElementById('descripcion').textContent = modelos[idx].texto;
+      visor.style.opacity = '1';
+      visor.style.filter  = 'blur(0)';
+    }, 100);
   }, 300);
 }
