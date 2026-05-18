@@ -1,5 +1,7 @@
 const params = new URLSearchParams(window.location.search);
 const propiedadID = params.get('id');
+const CDN = "https://static.irisaerealservices.com";
+
 
 console.log('ID recibido:', propiedadID);
 
@@ -49,7 +51,7 @@ fetch('/irisview/data/propiedades.geojson')
     if (videoSource) {
 
       videoSource.src =
-        `/irisview/assets/propiedades/${p.folder}/video/video.mp4`;
+        `${CDN}/irisview/assets/propiedades/${p.folder}/video/video.mp4`;
 
       videoSource.parentElement.load();
 
@@ -69,7 +71,7 @@ fetch('/irisview/data/propiedades.geojson')
     fotos.forEach(foto => {
 
       const ruta =
-        `/irisview/assets/propiedades/${p.folder}/fotos/${foto.trim()}`;
+        `${CDN}/irisview/assets/propiedades/${p.folder}/fotos/${foto.trim()}`;
 
       const item = document.createElement('div');
 
@@ -94,7 +96,7 @@ const modelo3D = document.getElementById('modelo3d');
 if (modelo3D) {
 
   modelo3D.src =
-    `/irisview/assets/propiedades/${p.folder}/modelo3d/modelo.glb`;
+    `${CDN}/irisview/assets/propiedades/${p.folder}/modelo3d/modelo.glb`;
 
 }
 
@@ -435,7 +437,7 @@ const cinematicVideo =
 if (cinematicVideo) {
 
   cinematicVideo.src =
-    `/irisview/assets/propiedades/${p.folder}/video/video2.mp4`;
+    `${CDN}/irisview/assets/propiedades/${p.folder}/video/video2.mp4`;
 
   cinematicVideo.parentElement.load();
 
