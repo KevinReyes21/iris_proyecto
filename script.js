@@ -110,10 +110,9 @@ window.addEventListener('load', () => {
 
 /* ── MODEL VIEWER ── */
 const modelos = [
-  { url: "modelos/modelo1.glb", texto: "Modelo 3D — Puente 20MB" },
-  { url: "https://static.irisaerealservices.com/modelos/modelo2.glb", texto: "Modelo 3D — puente 75MB" },
+  { url: "https://static.irisaerealservices.com/modelos/modelo2.glb", texto: "Modelo 3D — puente" },
   { url: "modelos/modelo3.glb", texto: "Modelo 3D — Harbor, Mérida - Yucatán" },
-  { url: "https://static.irisaerealservices.com/modelos/modelo4.glb", texto: "Modelo 3D — Demolición 130MB, Mérida - Yucatán" }
+  { url: "https://static.irisaerealservices.com/modelos/modelo4.glb", texto: "Modelo 3D — Demolición, Mérida - Yucatán" }
 ];
 let idx = 0;
 

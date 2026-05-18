@@ -5,7 +5,7 @@
 // ─────────────────────────────
 // INTRO OVERLAY
 // ─────────────────────────────
-
+const CDN = "https://static.irisaerealservices.com";
 const introOverlay = document.getElementById('introOverlay');
 const enterBtn = document.getElementById('enterBtn');
 
@@ -269,7 +269,7 @@ function renderizarPropiedades() {
       const p = feature.properties;
 
       const preview =
-        `/irisview/assets/propiedades/${p.folder}/${p.preview}`;
+        `${CDN}/irisview/assets/propiedades/${p.folder}/${p.preview}`;
 
       // ─────────────────────────────
       // POPUP
