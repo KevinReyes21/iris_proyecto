@@ -391,6 +391,42 @@ html, body {
   50%      { transform: translateY(-6px); }
 }
 
+/* ─── DESARROLLO MARKER ─── */
+.desarrollo-marker {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  text-align: center;
+  min-width: 170px;
+  padding: 10px 16px;
+  border-color: rgba(0,87,184,0.5);
+  box-shadow: 0 6px 24px rgba(0,0,0,0.35), 0 0 18px rgba(0,87,184,0.3);
+}
+.desarrollo-marker::after {
+  background: #6ab0ff;
+  box-shadow: 0 0 12px rgba(106,176,255,0.85), 0 0 24px rgba(106,176,255,0.45);
+}
+.desarrollo-marker strong {
+  font-size: 0.78rem; font-weight: 600; color: white;
+}
+.desarrollo-marker span {
+  font-size: 0.65rem; font-weight: 400; color: #6ab0ff; letter-spacing: 1px;
+}
+
+/* ─── CARD DESARROLLO SIDEBAR ─── */
+.prop-card--desarrollo {
+  border-color: rgba(0,87,184,0.25);
+}
+.prop-card--desarrollo:hover {
+  border-color: rgba(106,176,255,0.45);
+  background: rgba(0,87,184,0.08);
+}
+.badge-azul {
+  background: rgba(0,87,184,0.2);
+  color: #6ab0ff;
+}
+
 /* ─── RESPONSIVE ─── */
 @media (max-width: 768px) {
   .intro-box { padding: 42px 26px; }
@@ -398,78 +434,48 @@ html, body {
   .sidebar { position: absolute; left: 0; top: 0; z-index: 600; }
 }
 
-/* ─────────────────────────────
-   MOBILE FIX
-───────────────────────────── */
-
-@media (max-width: 768px) {
-
-  .intro-overlay {
-
-    align-items: flex-start;
-
-    overflow-y: auto;
-
-    padding: 24px 18px;
-
-  }
-
-  .intro-box {
-
-    margin-top: 40px;
-
-    padding: 34px 24px;
-
-    border-radius: 28px;
-
-  }
-
-  .intro-box h1 {
-
-    font-size: 2.2rem;
-
-    line-height: 1.1;
-
-    margin-bottom: 20px;
-
-  }
-
-  .intro-box p {
-
-    font-size: 0.92rem;
-
-    line-height: 1.7;
-
-    margin-bottom: 30px;
-
-  }
-
-  .intro-benefits {
-
-    flex-direction: column;
-
-    gap: 12px;
-
-    margin-bottom: 28px;
-
-  }
-
-  .intro-benefit {
-
-    width: 100%;
-
-    padding: 14px 16px;
-
-  }
-
-  .intro-btn {
-
-    width: 100%;
-
-    padding: 18px 20px;
-
-    font-size: 0.72rem;
-
-  }
-
+/* ─── TABS ─── */
+.sidebar-tabs {
+  display: flex;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  background: rgba(10,10,10,0.98);
+  position: sticky;
+  top: 65px;
+  z-index: 9;
 }
+.tab {
+  flex: 1;
+  padding: 12px 6px;
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+  color: rgba(255,255,255,0.35);
+  font-size: 0.62rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: color 0.2s, border-color 0.2s;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+.tab:hover { color: rgba(255,255,255,0.65); }
+.tab--active {
+  color: #00c896;
+  border-bottom-color: #00c896;
+}
+.tab-count {
+  font-size: 0.68rem;
+  font-weight: 600;
+  background: rgba(255,255,255,0.06);
+  border-radius: 10px;
+  padding: 1px 8px;
+  letter-spacing: 0;
+}
+.tab--active .tab-count {
+  background: rgba(0,200,150,0.15);
+  color: #00c896;
+}
+.tab-panel { display: none; padding: 16px; }
+.tab-panel--active { display: block; }

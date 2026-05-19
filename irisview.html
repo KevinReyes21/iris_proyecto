@@ -8,7 +8,7 @@
   <link rel="stylesheet" href="css/irisview.css">
 </head>
 <body>
- 
+
   <!-- ─── INTRO OVERLAY ─── -->
   <div id="introOverlay" class="intro-overlay">
     <div class="intro-box">
@@ -23,23 +23,23 @@
       <button id="enterBtn" class="intro-btn">Entrar al visor interactivo</button>
     </div>
   </div>
- 
+
   <!-- ─── LAYOUT PRINCIPAL ─── -->
   <div class="visor-layout">
- 
+
     <!-- ─── SIDEBAR ─── -->
     <aside class="sidebar" id="sidebar">
- 
+
       <!-- HEADER SIDEBAR -->
       <div class="sidebar-header">
         <div class="sidebar-logo">IRIS<span>VIEW</span></div>
         <button class="sidebar-toggle" id="sidebarToggle" title="Cerrar panel">&#8249;</button>
       </div>
- 
+
       <!-- FILTROS -->
       <div class="sidebar-section">
         <div class="sidebar-label">Filtros</div>
- 
+
         <!-- TIPO -->
         <div class="filter-group">
           <div class="filter-title">Tipo de propiedad</div>
@@ -49,7 +49,7 @@
             <button class="chip" data-filter="tipo" data-value="lote">Lote</button>
           </div>
         </div>
- 
+
         <!-- DESTACADOS -->
         <div class="filter-group">
           <label class="filter-toggle">
@@ -60,7 +60,7 @@
             <span class="toggle-label">Solo destacados</span>
           </label>
         </div>
- 
+
         <!-- PRECIO -->
         <div class="filter-group">
           <div class="filter-title">Precio máximo</div>
@@ -68,7 +68,7 @@
             min="500000" max="5000000" step="100000" value="5000000">
           <div class="range-value">Hasta <span id="precioLabel">$5,000,000</span> MXN</div>
         </div>
- 
+
         <!-- SUPERFICIE -->
         <div class="filter-group">
           <div class="filter-title">Superficie mínima</div>
@@ -76,27 +76,49 @@
             min="0" max="500" step="10" value="0">
           <div class="range-value">Desde <span id="superficieLabel">0</span> m²</div>
         </div>
- 
+
         <!-- BOTÓN LIMPIAR -->
         <button class="btn-limpiar" id="btnLimpiar">Limpiar filtros</button>
       </div>
- 
-      <!-- LISTA DE PROPIEDADES -->
-      <div class="sidebar-section">
-        <div class="sidebar-label">Propiedades <span id="contadorProps" class="contador">0</span></div>
-        <div class="props-list" id="propsList"></div>
+
+      <!-- ─── TABS ─── -->
+      <div class="sidebar-tabs">
+        <button class="tab tab--active" data-tab="todos">
+          Todos <span class="tab-count" id="countTodos">0</span>
+        </button>
+        <button class="tab" data-tab="desarrollos">
+          Desarrollos <span class="tab-count" id="countDesarrollos">0</span>
+        </button>
+        <button class="tab" data-tab="individuales">
+          Individuales <span class="tab-count" id="countIndividuales">0</span>
+        </button>
       </div>
- 
+
+      <!-- PANEL TODOS -->
+      <div class="tab-panel tab-panel--active" id="panelTodos">
+        <div class="props-list" id="listTodos"></div>
+      </div>
+
+      <!-- PANEL DESARROLLOS -->
+      <div class="tab-panel" id="panelDesarrollos">
+        <div class="props-list" id="listDesarrollos"></div>
+      </div>
+
+      <!-- PANEL INDIVIDUALES -->
+      <div class="tab-panel" id="panelIndividuales">
+        <div class="props-list" id="listIndividuales"></div>
+      </div>
+
     </aside>
- 
+
     <!-- BOTÓN ABRIR SIDEBAR (cuando está cerrado) -->
     <button class="sidebar-open-btn" id="sidebarOpenBtn" title="Abrir panel">&#8250;</button>
- 
+
     <!-- ─── MAPA ─── -->
     <div id="map"></div>
- 
+
   </div>
- 
+
   <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
   <script src="js/irisview.js"></script>
 </body>
