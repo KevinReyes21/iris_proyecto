@@ -61,13 +61,19 @@ function capitalizar(str) {
 // MAPA
 // ─────────────────────────────
 
-const map = L.map('map', { zoomControl: true }).setView([20.97, -89.62], 12);
+const map = L.map('map', {
+  zoomControl: true,
+  maxZoom: 23            // ← agregar esto
+}).setView([20.97, -89.62], 12);
 
 L.tileLayer(
   'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
-  { attribution: 'Tiles © Esri' }
+  {
+    attribution: 'Tiles © Esri',
+    maxNativeZoom: 19,   // zoom máximo real de las imágenes del servidor
+    maxZoom: 23          // zoom máximo que permite el mapa (se estira/pixelea)
+  }
 ).addTo(map);
-
 // ─────────────────────────────
 // VARIABLES GLOBALES
 // ─────────────────────────────
