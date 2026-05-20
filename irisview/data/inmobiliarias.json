@@ -3,5 +3,10 @@
     "nombre": "Grupo Inmobiliario XYZ",
     "folder": "grupo-xyz",
     "logo": "logo.png"
+  },
+  "tierras-yucatan-real-state": {
+    "nombre": "TIERRAS YUCATÁN REAL STATE",
+    "folder": "tierras-yucatan-real-state",
+    "logo": "logo.png"
   }
 }
