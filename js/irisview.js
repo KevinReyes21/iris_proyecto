@@ -126,9 +126,9 @@ btnLimpiar.addEventListener('click', () => {
   filtroTipo = 'todos';
   filtroInmo = 'todas';
   filtroDestacado.checked     = false;
-  filtroPrecio.value          = 5000000;
+  filtroPrecio.value          = 10000000;
   filtroSuperficie.value      = 0;
-  precioLabel.textContent     = '$5,000,000';
+  precioLabel.textContent     = '$10,000,000';
   superficieLabel.textContent = '0';
   document.querySelectorAll('[data-filter="tipo"]').forEach(c => c.classList.remove('chip--active'));
   document.querySelector('[data-value="todos"]').classList.add('chip--active');
