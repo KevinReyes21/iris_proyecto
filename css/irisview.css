@@ -479,3 +479,65 @@ html, body {
 }
 .tab-panel { display: none; padding: 16px; }
 .tab-panel--active { display: block; }
+
+/* ─── CHIP CON LOGO INMOBILIARIA ─── */
+.chip--inmo {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+}
+.chip-logo {
+  width: 18px; height: 18px;
+  object-fit: contain;
+  border-radius: 3px;
+  background: white;
+  padding: 1px;
+  flex-shrink: 0;
+}
+
+/* ─── POPUP INMOBILIARIA ─── */
+.popup-inmobiliaria {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 0;
+  margin: 10px 0;
+  border-top: 1px solid rgba(255,255,255,0.07);
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+}
+.popup-inmo-logo {
+  width: 36px; height: 36px;
+  object-fit: contain;
+  border-radius: 6px;
+  background: white;
+  padding: 3px;
+  flex-shrink: 0;
+}
+.popup-inmo-nombre {
+  font-size: 0.78rem;
+  color: rgba(255,255,255,0.75);
+  font-weight: 500;
+}
+
+/* ─── CARD INMOBILIARIA (sidebar) ─── */
+.card-inmo {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin-top: 10px;
+  padding-top: 8px;
+  border-top: 1px solid rgba(255,255,255,0.06);
+}
+.card-inmo-logo {
+  width: 20px; height: 20px;
+  object-fit: contain;
+  border-radius: 4px;
+  background: white;
+  padding: 2px;
+  flex-shrink: 0;
+}
+.card-inmo span {
+  font-size: 0.68rem;
+  color: rgba(255,255,255,0.4);
+}

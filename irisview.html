@@ -30,7 +30,7 @@
     <!-- ─── SIDEBAR ─── -->
     <aside class="sidebar" id="sidebar">
 
-      <!-- HEADER SIDEBAR -->
+      <!-- HEADER -->
       <div class="sidebar-header">
         <div class="sidebar-logo">IRIS<span>VIEW</span></div>
         <button class="sidebar-toggle" id="sidebarToggle" title="Cerrar panel">&#8249;</button>
@@ -47,6 +47,15 @@
             <button class="chip chip--active" data-filter="tipo" data-value="todos">Todos</button>
             <button class="chip" data-filter="tipo" data-value="casa">Casa</button>
             <button class="chip" data-filter="tipo" data-value="lote">Lote</button>
+          </div>
+        </div>
+
+        <!-- INMOBILIARIA -->
+        <div class="filter-group">
+          <div class="filter-title">Inmobiliaria</div>
+          <div class="filter-chips" id="chipsInmobiliaria">
+            <button class="chip chip--active" data-filter="inmo" data-value="todas">Todas</button>
+            <!-- se pueblan dinámicamente -->
           </div>
         </div>
 
@@ -77,7 +86,7 @@
           <div class="range-value">Desde <span id="superficieLabel">0</span> m²</div>
         </div>
 
-        <!-- BOTÓN LIMPIAR -->
+        <!-- LIMPIAR -->
         <button class="btn-limpiar" id="btnLimpiar">Limpiar filtros</button>
       </div>
 
@@ -111,7 +120,7 @@
 
     </aside>
 
-    <!-- BOTÓN ABRIR SIDEBAR (cuando está cerrado) -->
+    <!-- BOTÓN ABRIR SIDEBAR -->
     <button class="sidebar-open-btn" id="sidebarOpenBtn" title="Abrir panel">&#8250;</button>
 
     <!-- ─── MAPA ─── -->

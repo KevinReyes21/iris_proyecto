@@ -1,11 +1,11 @@
 // ─────────────────────────────
-// IRISVIEW JS — tabs + clustering
+// IRISVIEW JS — inmobiliarias + tabs + clustering
 // ─────────────────────────────
 
 const CDN = "https://static.irisaerealservices.com";
 
 // ─────────────────────────────
-// INTRO OVERLAY
+// INTRO
 // ─────────────────────────────
 
 const introOverlay = document.getElementById('introOverlay');
@@ -29,7 +29,6 @@ sidebarToggle.addEventListener('click', () => {
   sidebar.classList.add('closed');
   sidebarOpenBtn.classList.add('visible');
 });
-
 sidebarOpenBtn.addEventListener('click', () => {
   sidebar.classList.remove('closed');
   sidebarOpenBtn.classList.remove('visible');
@@ -41,15 +40,10 @@ sidebarOpenBtn.addEventListener('click', () => {
 
 document.querySelectorAll('.tab').forEach(tab => {
   tab.addEventListener('click', () => {
-
-    // activar tab
     document.querySelectorAll('.tab').forEach(t => t.classList.remove('tab--active'));
     tab.classList.add('tab--active');
-
-    // mostrar panel correspondiente
     document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('tab-panel--active'));
     document.getElementById(`panel${capitalizar(tab.dataset.tab)}`).classList.add('tab-panel--active');
-
   });
 });
 
@@ -63,37 +57,37 @@ function capitalizar(str) {
 
 const map = L.map('map', {
   zoomControl: true,
-  maxZoom: 23            // ← agregar esto
+  maxZoom: 23
 }).setView([20.97, -89.62], 12);
 
 L.tileLayer(
   'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
   {
     attribution: 'Tiles © Esri',
-    maxNativeZoom: 19,   // zoom máximo real de las imágenes del servidor
-    maxZoom: 23          // zoom máximo que permite el mapa (se estira/pixelea)
+    maxNativeZoom: 19,
+    maxZoom: 23
   }
 ).addTo(map);
+
 // ─────────────────────────────
-// VARIABLES GLOBALES
+// VARIABLES
 // ─────────────────────────────
 
 let geojsonLayer;
-let markersLayer = L.layerGroup().addTo(map);
-let propiedadesData = [];
+let markersLayer     = L.layerGroup().addTo(map);
+let propiedadesData  = [];
+let inmobiliariasData = {};
 
-// listas de los tres paneles
 const listTodos        = document.getElementById('listTodos');
 const listDesarrollos  = document.getElementById('listDesarrollos');
 const listIndividuales = document.getElementById('listIndividuales');
-
-// contadores tabs
 const countTodos        = document.getElementById('countTodos');
 const countDesarrollos  = document.getElementById('countDesarrollos');
 const countIndividuales = document.getElementById('countIndividuales');
+const chipsInmobiliaria = document.getElementById('chipsInmobiliaria');
 
-// filtros
-let filtroTipo = 'todos';
+let filtroTipo  = 'todos';
+let filtroInmo  = 'todas';
 
 const filtroDestacado  = document.getElementById('filtroDestacado');
 const filtroPrecio     = document.getElementById('filtroPrecio');
@@ -118,9 +112,10 @@ filtroSuperficie.addEventListener('input', () => {
 
 filtroDestacado.addEventListener('change', () => renderizarPropiedades());
 
-document.querySelectorAll('.chip').forEach(chip => {
+// chips tipo
+document.querySelectorAll('[data-filter="tipo"]').forEach(chip => {
   chip.addEventListener('click', () => {
-    document.querySelectorAll('.chip').forEach(c => c.classList.remove('chip--active'));
+    document.querySelectorAll('[data-filter="tipo"]').forEach(c => c.classList.remove('chip--active'));
     chip.classList.add('chip--active');
     filtroTipo = chip.dataset.value;
     renderizarPropiedades();
@@ -129,29 +124,74 @@ document.querySelectorAll('.chip').forEach(chip => {
 
 btnLimpiar.addEventListener('click', () => {
   filtroTipo = 'todos';
+  filtroInmo = 'todas';
   filtroDestacado.checked     = false;
   filtroPrecio.value          = 5000000;
   filtroSuperficie.value      = 0;
   precioLabel.textContent     = '$5,000,000';
   superficieLabel.textContent = '0';
-  document.querySelectorAll('.chip').forEach(c => c.classList.remove('chip--active'));
+  document.querySelectorAll('[data-filter="tipo"]').forEach(c => c.classList.remove('chip--active'));
   document.querySelector('[data-value="todos"]').classList.add('chip--active');
+  document.querySelectorAll('[data-filter="inmo"]').forEach(c => c.classList.remove('chip--active'));
+  document.querySelector('[data-value="todas"]').classList.add('chip--active');
   renderizarPropiedades();
 });
 
 // ─────────────────────────────
-// CARGAR GEOJSON
+// CARGAR DATOS
 // ─────────────────────────────
 
-fetch('irisview/data/propiedades.geojson')
-  .then(res => res.json())
-  .then(data => {
-    propiedadesData = data.features;
-    renderizarPropiedades();
+Promise.all([
+  fetch('irisview/data/propiedades.geojson').then(r => r.json()),
+  fetch('irisview/data/inmobiliarias.json').then(r => r.json())
+])
+.then(([geojson, inmos]) => {
+  propiedadesData   = geojson.features;
+  inmobiliariasData = inmos;
+  poblarChipsInmobiliaria();
+  renderizarPropiedades();
+});
+
+// ─────────────────────────────
+// POBLAR CHIPS INMOBILIARIA
+// ─────────────────────────────
+
+function poblarChipsInmobiliaria() {
+  // obtener ids únicos de inmobiliarias presentes en el geojson
+  const ids = [...new Set(
+    propiedadesData
+      .map(f => f.properties.inmobiliaria)
+      .filter(Boolean)
+  )];
+
+  ids.forEach(id => {
+    const inmo = inmobiliariasData[id];
+    if (!inmo) return;
+
+    const chip = document.createElement('button');
+    chip.className    = 'chip chip--inmo';
+    chip.dataset.filter = 'inmo';
+    chip.dataset.value  = id;
+
+    chip.innerHTML = `
+      <img src="${CDN}/irisview/assets/inmobiliarias/${inmo.folder}/${inmo.logo}"
+           class="chip-logo" alt="${inmo.nombre}">
+      ${inmo.nombre}
+    `;
+
+    chip.addEventListener('click', () => {
+      document.querySelectorAll('[data-filter="inmo"]').forEach(c => c.classList.remove('chip--active'));
+      chip.classList.add('chip--active');
+      filtroInmo = id;
+      renderizarPropiedades();
+    });
+
+    chipsInmobiliaria.appendChild(chip);
   });
+}
 
 // ─────────────────────────────
-// AGRUPAR POR DESARROLLO
+// HELPERS
 // ─────────────────────────────
 
 function agruparPorDesarrollo(features) {
@@ -166,8 +206,9 @@ function agruparPorDesarrollo(features) {
 function calcularCentroide(features) {
   let latSum = 0, lngSum = 0, count = 0;
   features.forEach(f => {
-    const coords = f.geometry.coordinates[0];
-    coords.forEach(([lng, lat]) => { latSum += lat; lngSum += lng; count++; });
+    f.geometry.coordinates[0].forEach(([lng, lat]) => {
+      latSum += lat; lngSum += lng; count++;
+    });
   });
   return L.latLng(latSum / count, lngSum / count);
 }
@@ -176,8 +217,34 @@ function rangoPrecio(features) {
   const precios = features.map(f => Number(f.properties.precio));
   const min = Math.min(...precios);
   const max = Math.max(...precios);
-  if (min === max) return `$${min.toLocaleString()}`;
-  return `$${min.toLocaleString()} — $${max.toLocaleString()}`;
+  return min === max
+    ? `$${min.toLocaleString()}`
+    : `$${min.toLocaleString()} — $${max.toLocaleString()}`;
+}
+
+function buscarLayer(feature) {
+  let found = null;
+  geojsonLayer.eachLayer(l => { if (l.feature === feature) found = l; });
+  return found;
+}
+
+// ─────────────────────────────
+// HTML DEL BLOQUE INMOBILIARIA
+// para el popup
+// ─────────────────────────────
+
+function htmlInmobiliaria(p) {
+  if (!p.inmobiliaria) return '';
+  const inmo = inmobiliariasData[p.inmobiliaria];
+  if (!inmo) return '';
+
+  return `
+    <div class="popup-inmobiliaria">
+      <img src="${CDN}/irisview/assets/inmobiliarias/${inmo.folder}/${inmo.logo}"
+           class="popup-inmo-logo" alt="${inmo.nombre}">
+      <span class="popup-inmo-nombre">${inmo.nombre}</span>
+    </div>
+  `;
 }
 
 // ─────────────────────────────
@@ -186,51 +253,42 @@ function rangoPrecio(features) {
 
 function renderizarPropiedades() {
 
-  // limpiar
   if (geojsonLayer) map.removeLayer(geojsonLayer);
   markersLayer.clearLayers();
   listTodos.innerHTML        = '';
   listDesarrollos.innerHTML  = '';
   listIndividuales.innerHTML = '';
 
-  // filtros
-  const filtradas = propiedadesData.filter(feature => {
-    const p = feature.properties;
+  const filtradas = propiedadesData.filter(f => {
+    const p = f.properties;
     const noVendido        = String(p.vendido).toLowerCase() !== 'si';
     const cumpleTipo       = filtroTipo === 'todos' || p.tipo === filtroTipo;
+    const cumpleInmo       = filtroInmo === 'todas' || p.inmobiliaria === filtroInmo;
     const cumpleDestacado  = !filtroDestacado.checked || String(p.destacado).toLowerCase() === 'si';
     const cumplePrecio     = Number(p.precio) <= Number(filtroPrecio.value);
     const cumpleSuperficie = Number(p.superficie_m2) >= Number(filtroSuperficie.value);
-    return noVendido && cumpleTipo && cumpleDestacado && cumplePrecio && cumpleSuperficie;
+    return noVendido && cumpleTipo && cumpleInmo && cumpleDestacado && cumplePrecio && cumpleSuperficie;
   });
 
-  // separar grupos
   const individuales  = filtradas.filter(f => !f.properties.desarrollo);
   const conDesarrollo = filtradas.filter(f =>  f.properties.desarrollo);
   const porDesarrollo = agruparPorDesarrollo(conDesarrollo);
 
-  // actualizar contadores tabs
   countTodos.textContent        = filtradas.length;
   countDesarrollos.textContent  = Object.keys(porDesarrollo).length;
   countIndividuales.textContent = individuales.length;
 
-  // ─────────────────────────────
-  // POLÍGONOS
-  // ─────────────────────────────
-
+  // ── POLÍGONOS ──
   geojsonLayer = L.geoJSON(filtradas, {
 
-    style: function(feature) {
-      const esDesarrollo = !!feature.properties.desarrollo;
-      return {
-        color:       esDesarrollo ? '#6ab0ff' : '#00ffbb',
-        weight:      2.5,
-        fillColor:   esDesarrollo ? '#0057b8' : '#00c896',
-        fillOpacity: 0.2
-      };
-    },
+    style: f => ({
+      color:       f.properties.desarrollo ? '#6ab0ff' : '#00ffbb',
+      weight:      2.5,
+      fillColor:   f.properties.desarrollo ? '#0057b8' : '#00c896',
+      fillOpacity: 0.2
+    }),
 
-    onEachFeature: function(feature, layer) {
+    onEachFeature(feature, layer) {
       const p       = feature.properties;
       const preview = `${CDN}/irisview/assets/propiedades/${p.folder}/${p.preview}`;
 
@@ -247,6 +305,7 @@ function renderizarPropiedades() {
               ${p.tipo === 'casa' ? `<span>🛏 ${p.recamaras}</span>` : ''}
               ${p.tipo === 'casa' ? `<span>🛁 ${p.banos}</span>`    : ''}
             </div>
+            ${htmlInmobiliaria(p)}
             <a href="/irisview/propiedad.html?id=${p.id}" class="popup-btn">Ver propiedad</a>
           </div>
         </div>
@@ -259,10 +318,7 @@ function renderizarPropiedades() {
 
   }).addTo(map);
 
-  // ─────────────────────────────
-  // MARKERS + CARDS INDIVIDUALES
-  // ─────────────────────────────
-
+  // ── MARKERS + CARDS INDIVIDUALES ──
   individuales.forEach(feature => {
     const p     = feature.properties;
     const layer = buscarLayer(feature);
@@ -287,23 +343,17 @@ function renderizarPropiedades() {
 
     markersLayer.addLayer(marker);
 
-    // card en "Todos" e "Individuales"
-    const cardA = crearCardIndividual(p, layer);
-    const cardB = crearCardIndividual(p, layer);
-    listTodos.appendChild(cardA);
-    listIndividuales.appendChild(cardB);
+    listTodos.appendChild(crearCardIndividual(p, layer));
+    listIndividuales.appendChild(crearCardIndividual(p, layer));
   });
 
-  // ─────────────────────────────
-  // MARKERS + CARDS DESARROLLOS
-  // ─────────────────────────────
-
+  // ── MARKERS + CARDS DESARROLLOS ──
   Object.entries(porDesarrollo).forEach(([nombre, features]) => {
     const centroide = calcularCentroide(features);
     const rango     = rangoPrecio(features);
     const lotes     = features.length;
 
-    const markerDes = L.marker(centroide, {
+    const marker = L.marker(centroide, {
       esDesarrollo: true,
       icon: L.divIcon({
         className: 'price-icon',
@@ -318,23 +368,16 @@ function renderizarPropiedades() {
       })
     });
 
-    markerDes.on('click', () => {
+    marker.on('click', () => {
       const bounds = L.featureGroup(features.map(f => L.geoJSON(f))).getBounds();
       map.fitBounds(bounds, { padding: [60, 60] });
     });
 
-    markersLayer.addLayer(markerDes);
+    markersLayer.addLayer(marker);
 
-    // card en "Todos" y "Desarrollos"
-    const cardA = crearCardDesarrollo(nombre, features);
-    const cardB = crearCardDesarrollo(nombre, features);
-    listTodos.appendChild(cardA);
-    listDesarrollos.appendChild(cardB);
+    listTodos.appendChild(crearCardDesarrollo(nombre, features));
+    listDesarrollos.appendChild(crearCardDesarrollo(nombre, features));
   });
-
-  // ─────────────────────────────
-  // AJUSTAR VISTA
-  // ─────────────────────────────
 
   if (filtradas.length > 0) {
     map.fitBounds(geojsonLayer.getBounds(), { padding: [50, 50] });
@@ -344,24 +387,14 @@ function renderizarPropiedades() {
 }
 
 // ─────────────────────────────
-// BUSCAR LAYER
-// ─────────────────────────────
-
-function buscarLayer(feature) {
-  let found = null;
-  geojsonLayer.eachLayer(layer => {
-    if (layer.feature === feature) found = layer;
-  });
-  return found;
-}
-
-// ─────────────────────────────
-// CREAR CARD INDIVIDUAL
+// CARDS
 // ─────────────────────────────
 
 function crearCardIndividual(p, layer) {
   const preview = `${CDN}/irisview/assets/propiedades/${p.folder}/${p.preview}`;
-  const card    = document.createElement('div');
+  const inmo    = p.inmobiliaria ? inmobiliariasData[p.inmobiliaria] : null;
+
+  const card = document.createElement('div');
   card.className = 'prop-card';
   if (String(p.destacado).toLowerCase() === 'si') card.classList.add('destacado');
 
@@ -378,6 +411,13 @@ function crearCardIndividual(p, layer) {
         <span>${p.superficie_m2} m²</span>
         ${p.tipo === 'casa' ? `<span>${p.recamaras} rec</span>` : ''}
       </div>
+      ${inmo ? `
+        <div class="card-inmo">
+          <img src="${CDN}/irisview/assets/inmobiliarias/${inmo.folder}/${inmo.logo}"
+               class="card-inmo-logo" alt="${inmo.nombre}">
+          <span>${inmo.nombre}</span>
+        </div>
+      ` : ''}
     </div>
   `;
 
@@ -389,14 +429,14 @@ function crearCardIndividual(p, layer) {
   return card;
 }
 
-// ─────────────────────────────
-// CREAR CARD DESARROLLO
-// ─────────────────────────────
-
 function crearCardDesarrollo(nombre, features) {
   const rango   = rangoPrecio(features);
   const totalM2 = features.reduce((s, f) => s + Number(f.properties.superficie_m2), 0);
   const lotes   = features.length;
+
+  // inmobiliaria del desarrollo (tomar del primer feature)
+  const inmoId = features[0]?.properties?.inmobiliaria;
+  const inmo   = inmoId ? inmobiliariasData[inmoId] : null;
 
   const card = document.createElement('div');
   card.className = 'prop-card prop-card--desarrollo';
@@ -412,6 +452,13 @@ function crearCardDesarrollo(nombre, features) {
       <div class="prop-card-meta">
         <span>${totalM2.toLocaleString()} m² totales</span>
       </div>
+      ${inmo ? `
+        <div class="card-inmo">
+          <img src="${CDN}/irisview/assets/inmobiliarias/${inmo.folder}/${inmo.logo}"
+               class="card-inmo-logo" alt="${inmo.nombre}">
+          <span>${inmo.nombre}</span>
+        </div>
+      ` : ''}
     </div>
   `;
 
@@ -424,7 +471,7 @@ function crearCardDesarrollo(nombre, features) {
 }
 
 // ─────────────────────────────
-// CONTROLAR MARKERS SEGÚN ZOOM
+// CONTROLAR MARKERS ZOOM
 // ─────────────────────────────
 
 function controlarMarkers() {
@@ -432,11 +479,9 @@ function controlarMarkers() {
   markersLayer.eachLayer(marker => {
     const el = marker.getElement();
     if (!el) return;
-    if (marker.options.esDesarrollo) {
-      el.style.display = zoom <= 15 ? 'block' : 'none';
-    } else {
-      el.style.display = zoom >= 19 ? 'none' : 'block';
-    }
+    el.style.display = marker.options.esDesarrollo
+      ? (zoom <= 15 ? 'block' : 'none')
+      : (zoom >= 19 ? 'none'  : 'block');
   });
 }
 
