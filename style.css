@@ -294,7 +294,7 @@ model-viewer {
 .carrusel-track {
   display: flex;
   gap: 2px;
-  animation: slideCarrusel 28s linear infinite;
+  animation: slideCarrusel 70s linear infinite;
   width: max-content;
 }
 .carrusel-track:hover { animation-play-state: paused; }
