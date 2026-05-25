@@ -578,3 +578,7 @@ html, body {
   font-size: 0.68rem;
   color: rgba(255,255,255,0.4);
 }
+
+.leaflet-tile {
+    image-rendering: auto;
+}

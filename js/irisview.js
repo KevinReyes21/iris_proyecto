@@ -51,24 +51,21 @@ function capitalizar(str) {
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
-// ─────────────────────────────
-// MAPA
-// ─────────────────────────────
-
 const map = L.map('map', {
-  zoomControl: true,
-  maxZoom: 23
-}).setView([20.97, -89.62], 12);
+  center: [20.97, -89.62],
+  zoom: 12,
+  maxZoom: 27,
+  zoomControl: true
+});
 
 L.tileLayer(
-  'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
+  'https://mt1.google.com/vt/lyrs=s&x={x}&y={y}&z={z}',
   {
-    attribution: 'Tiles © Esri',
-    maxNativeZoom: 19,
-    maxZoom: 23
+    maxZoom: 27,
+    maxNativeZoom: 22,
+    attribution: 'Google'
   }
 ).addTo(map);
-
 // ─────────────────────────────
 // VARIABLES
 // ─────────────────────────────
@@ -259,16 +256,21 @@ function renderizarPropiedades() {
   listDesarrollos.innerHTML  = '';
   listIndividuales.innerHTML = '';
 
-  const filtradas = propiedadesData.filter(f => {
-    const p = f.properties;
-    const noVendido        = String(p.vendido).toLowerCase() !== 'si';
-    const cumpleTipo       = filtroTipo === 'todos' || p.tipo === filtroTipo;
-    const cumpleInmo       = filtroInmo === 'todas' || p.inmobiliaria === filtroInmo;
-    const cumpleDestacado  = !filtroDestacado.checked || String(p.destacado).toLowerCase() === 'si';
-    const cumplePrecio     = Number(p.precio) <= Number(filtroPrecio.value);
-    const cumpleSuperficie = Number(p.superficie_m2) >= Number(filtroSuperficie.value);
-    return noVendido && cumpleTipo && cumpleInmo && cumpleDestacado && cumplePrecio && cumpleSuperficie;
-  });
+const filtradas = propiedadesData.filter(f => {
+  const p = f.properties;
+
+  const cumpleTipo       = filtroTipo === 'todos' || p.tipo === filtroTipo;
+  const cumpleInmo       = filtroInmo === 'todas' || p.inmobiliaria === filtroInmo;
+  const cumpleDestacado  = !filtroDestacado.checked || String(p.destacado).toLowerCase() === 'si';
+  const cumplePrecio     = Number(p.precio) <= Number(filtroPrecio.value);
+  const cumpleSuperficie = Number(p.superficie_m2) >= Number(filtroSuperficie.value);
+
+  return cumpleTipo &&
+         cumpleInmo &&
+         cumpleDestacado &&
+         cumplePrecio &&
+         cumpleSuperficie;
+});
 
   const individuales  = filtradas.filter(f => !f.properties.desarrollo);
   const conDesarrollo = filtradas.filter(f =>  f.properties.desarrollo);
@@ -280,13 +282,38 @@ function renderizarPropiedades() {
 
   // ── POLÍGONOS ──
   geojsonLayer = L.geoJSON(filtradas, {
+style: f => {
 
-    style: f => ({
-      color:       f.properties.desarrollo ? '#6ab0ff' : '#00ffbb',
-      weight:      2.5,
-      fillColor:   f.properties.desarrollo ? '#0057b8' : '#00c896',
+  const estado = String(f.properties.vendido).toLowerCase();
+
+    // VENDIDO
+    if (estado === 'si') {
+      return {
+        color: '#ff4d4d',
+        weight: 2.5,
+        fillColor: '#ff0000',
+        fillOpacity: 0.35
+      };
+    }
+
+    // APARTADO
+    if (estado === 'ap') {
+      return {
+        color: '#ffd54f',
+        weight: 2.5,
+        fillColor: '#ffcc00',
+        fillOpacity: 0.35
+      };
+    }
+
+    // DISPONIBLE
+    return {
+      color: f.properties.desarrollo ? '#6ab0ff' : '#00ffbb',
+      weight: 2.5,
+      fillColor: f.properties.desarrollo ? '#0057b8' : '#00c896',
       fillOpacity: 0.2
-    }),
+    };
+  },
 
     onEachFeature(feature, layer) {
       const p       = feature.properties;
@@ -330,7 +357,11 @@ function renderizarPropiedades() {
       esDesarrollo: false,
       icon: L.divIcon({
         className: 'price-icon',
-        html: `<div class="price-marker">$${Number(p.precio).toLocaleString()}</div>`,
+        html: `
+          <div class="price-marker ${String(p.vendido).toLowerCase() === 'si' ? 'marker-vendido' : ''}">
+            $${Number(p.precio).toLocaleString()}
+          </div>
+          `,
         iconSize:   [130, 40],
         iconAnchor: [65, 20]
       })
