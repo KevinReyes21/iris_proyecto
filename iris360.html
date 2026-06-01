@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IRIS360 · Recorridos Virtuales — IRIS Aereal Services</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/inmobiliaria.css">
+  <link rel="stylesheet" href="css/iris360.css">
+</head>
+<body>
+
+  <!-- Cursor -->
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-ring" id="cursor-ring"></div>
+
+  <!-- Partículas -->
+  <canvas id="particles-canvas"></canvas>
+
+  <!-- ─── HEADER ─── -->
+  <header class="header" id="header">
+    <a href="index.html" class="logo-text">IRIS <span>AEREAL SERVICES</span></a>
+    <nav class="nav">
+      <a href="index.html#trabajos">Trabajos</a>
+      <a href="index.html#servicios">Servicios</a>
+      <a href="index.html#conocenos">Conócenos</a>
+    </nav>
+  </header>
+
+  <!-- ─── HERO ─── -->
+  <section class="hero">
+
+    <video autoplay muted loop playsinline
+      style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; z-index:0;">
+      <source src="video/inmobiliaria.mp4" type="video/mp4">
+    </video>
+
+    <div style="position:absolute; inset:0; z-index:1;
+      background: linear-gradient(to right,
+        rgba(255,255,255,1) 0%,
+        rgba(255,255,255,0.95) 35%,
+        rgba(255,255,255,0.5) 65%,
+        rgba(255,255,255,0) 100%);"></div>
+
+    <p class="hero-tag reveal" style="position:relative; z-index:2;">Servicio — IRIS360</p>
+    <h1 class="reveal reveal-delay-1" style="position:relative; z-index:2;">
+      Recorridos virtuales<br><em>360° inmersivos</em>
+    </h1>
+    <p class="hero-sub reveal reveal-delay-2" style="position:relative; z-index:2;">
+      Plataforma interactiva para la comercialización de desarrollos inmobiliarios. Plano maestro con disponibilidad de lotes en tiempo real y recorrido virtual por áreas comunes desde cualquier dispositivo.
+    </p>
+    <a href="#demo" class="btn-primary reveal reveal-delay-3"
+       style="position:relative; z-index:2; width:fit-content;">
+      Ver demo interactivo
+    </a>
+
+    <div class="hero-scroll-hint" style="position:absolute; z-index:2;">
+      <div class="scroll-line"></div>
+      Scroll
+    </div>
+
+  </section>
+
+  <!-- ─── QUÉ INCLUYE ─── -->
+  <section class="incluye-section">
+    <div class="section-label reveal">Qué incluye</div>
+    <h2 class="section-titulo reveal reveal-delay-1">Una experiencia completa<br><em>para tu desarrollo</em></h2>
+
+    <div class="incluye-grid">
+
+      <div class="incluye-card reveal reveal-delay-1">
+        <div class="incluye-num">01</div>
+        <h4>Plano SVG interactivo</h4>
+        <p>Plano maestro del desarrollo con lotes coloreados por estado de venta. Verde disponible, amarillo apartado, rojo vendido. Actualización sin tocar el código.</p>
+      </div>
+
+      <div class="incluye-card reveal reveal-delay-2">
+        <div class="incluye-num">02</div>
+        <h4>Esferas panorámicas 360°</h4>
+        <p>Recorrido virtual inmersivo por áreas comunes: entrada principal, casa club, piscina, parques y áreas recreativas. Compatible con móvil y escritorio.</p>
+      </div>
+
+      <div class="incluye-card reveal reveal-delay-3">
+        <div class="incluye-num">03</div>
+        <h4>Ficha comercial por lote</h4>
+        <p>Al seleccionar un lote el usuario ve superficie, precio, estado de venta y contacto directo con el asesor. Sin salir del recorrido.</p>
+      </div>
+
+      <div class="incluye-card reveal reveal-delay-4">
+        <div class="incluye-num">04</div>
+        <h4>Inventario dinámico</h4>
+        <p>El estado de cada lote se actualiza desde un archivo JSON sin modificar las panorámicas. Disponible → Apartado → Vendido en tiempo real.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ─── DEMO PLACEHOLDER ─── -->
+  <section id="demo" class="demo-section">
+    <div class="section-label reveal">Demo interactivo</div>
+    <h2 class="section-titulo reveal reveal-delay-1">Explora el<br><em>visor IRIS360</em></h2>
+    <p class="demo-desc reveal reveal-delay-2">El visor completo estará disponible próximamente. Contáctanos para una demostración personalizada con tu desarrollo.</p>
+
+    <div class="demo-placeholder reveal reveal-delay-3">
+      <div class="demo-inner">
+        <div class="demo-icon">
+          <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="24" cy="24" r="22" stroke="currentColor" stroke-width="1.5"/>
+            <ellipse cx="24" cy="24" rx="10" ry="22" stroke="currentColor" stroke-width="1.5"/>
+            <line x1="2" y1="24" x2="46" y2="24" stroke="currentColor" stroke-width="1.5"/>
+            <line x1="24" y1="2" x2="24" y2="46" stroke="currentColor" stroke-width="1.5"/>
+          </svg>
+        </div>
+        <p class="demo-tag">IRIS360 — Visor en construcción</p>
+        <a href="index.html#conocenos" class="btn-primary" style="margin-top: 24px; display:inline-block;">
+          Solicitar demo
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── FOOTER ─── -->
+  <footer>
+    <div class="footer-logo">IRIS AEREAL SERVICES</div>
+    <a href="index.html" class="footer-back">← Volver al inicio</a>
+    <div class="footer-copy">© 2025 — Todos los derechos reservados</div>
+  </footer>
+
+  <script src="js/inmobiliaria.js"></script>
+
+</body>
+</html>
