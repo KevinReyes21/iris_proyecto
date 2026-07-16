@@ -10,5 +10,5 @@
 // las tablas de Supabase, no el secreto de esta key.
 // ============================================================
 
-const IRIS360_SUPABASE_URL = 'https://TU-PROYECTO.supabase.co';
-const IRIS360_SUPABASE_ANON_KEY = 'TU_ANON_KEY_AQUI';
+const IRIS360_SUPABASE_URL = 'https://uhbhbgrlxwidjwhgmyjl.supabase.co';
+const IRIS360_SUPABASE_ANON_KEY = 'sb_publishable_RsKk5W6Z6EP0_bUq_uigkQ_7YzmORIv';
