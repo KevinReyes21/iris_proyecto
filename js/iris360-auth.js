@@ -24,9 +24,9 @@
   // ── Config sin llenar todavía ──
   const configPendiente =
     !window.IRIS360_SUPABASE_URL ||
-    IRIS360_SUPABASE_URL.includes('TU-PROYECTO') ||
+    IRIS360_SUPABASE_URL.includes('https://uhbhbgrlxwidjwhgmyjl.supabase.co') ||
     !window.IRIS360_SUPABASE_ANON_KEY ||
-    IRIS360_SUPABASE_ANON_KEY.includes('TU_ANON_KEY');
+    IRIS360_SUPABASE_ANON_KEY.includes('sb_publishable_RsKk5W6Z6EP0_bUq_uigkQ_7YzmORIv');
 
   if (configPendiente) {
     setMsg('Configuración de Supabase pendiente (js/iris360-config.js).', 'error');
