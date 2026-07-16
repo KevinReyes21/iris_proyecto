@@ -24,6 +24,7 @@
       <a href="index.html#trabajos">Trabajos</a>
       <a href="index.html#servicios">Servicios</a>
       <a href="index.html#conocenos">Conócenos</a>
+      <a href="#cliente">Cliente</a>
     </nav>
   </header>
 
@@ -95,26 +96,62 @@
     </div>
   </section>
 
-  <!-- ─── DEMO PLACEHOLDER ─── -->
-  <section id="demo" class="demo-section">
-    <div class="section-label reveal">Demo interactivo</div>
-    <h2 class="section-titulo reveal reveal-delay-1">Explora el<br><em>visor IRIS360</em></h2>
-    <p class="demo-desc reveal reveal-delay-2">El visor completo estará disponible próximamente. Contáctanos para una demostración personalizada con tu desarrollo.</p>
+  <!-- ─── ÁREA CLIENTE ─── -->
+  <section id="cliente" class="cliente-section">
+    <div class="section-label reveal">Acceso privado</div>
+    <h2 class="section-titulo reveal reveal-delay-1">Tu recorrido<br><em>360° personalizado</em></h2>
+    <p class="demo-desc reveal reveal-delay-2">Cada cliente tiene acceso a las esferas panorámicas de su propio desarrollo. Inicia sesión con las credenciales que te proporcionamos.</p>
 
-    <div class="demo-placeholder reveal reveal-delay-3">
-      <div class="demo-inner">
-        <div class="demo-icon">
-          <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <!-- LOGIN -->
+    <div id="login-wrapper" class="login-wrapper reveal reveal-delay-3">
+      <div class="login-card">
+        <div class="login-icon">
+          <svg width="40" height="40" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
             <circle cx="24" cy="24" r="22" stroke="currentColor" stroke-width="1.5"/>
             <ellipse cx="24" cy="24" rx="10" ry="22" stroke="currentColor" stroke-width="1.5"/>
             <line x1="2" y1="24" x2="46" y2="24" stroke="currentColor" stroke-width="1.5"/>
             <line x1="24" y1="2" x2="24" y2="46" stroke="currentColor" stroke-width="1.5"/>
           </svg>
         </div>
-        <p class="demo-tag">IRIS360 — Visor en construcción</p>
-        <a href="index.html#conocenos" class="btn-primary" style="margin-top: 24px; display:inline-block;">
-          Solicitar demo
-        </a>
+        <h3>Acceso de cliente</h3>
+        <p class="login-sub">Ingresa con el correo y la contraseña que te asignamos para ver tu recorrido virtual.</p>
+
+        <form id="login-form" autocomplete="on">
+          <div class="login-field">
+            <label for="login-email">Correo</label>
+            <input type="email" id="login-email" name="email" placeholder="tucorreo@ejemplo.com" required autocomplete="username">
+          </div>
+          <div class="login-field">
+            <label for="login-password">Contraseña</label>
+            <input type="password" id="login-password" name="password" placeholder="••••••••" required autocomplete="current-password">
+          </div>
+          <button type="submit" class="login-submit" id="login-btn">Entrar</button>
+          <p class="login-msg" id="login-msg"></p>
+        </form>
+
+        <div class="login-foot">
+          ¿No tienes acceso todavía? Contáctanos y activamos tu cuenta con el recorrido de tu desarrollo.
+        </div>
+      </div>
+    </div>
+
+    <!-- PANEL CLIENTE (visible tras login) -->
+    <div id="cliente-panel" class="cliente-panel">
+      <div class="cliente-topbar">
+        <div class="cliente-info">Sesión activa — <strong id="cliente-email">—</strong></div>
+        <button class="btn-logout" id="logout-btn">Cerrar sesión</button>
+      </div>
+
+      <div id="visor-iris360">
+        <div class="visor-placeholder">
+          <svg width="40" height="40" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="24" cy="24" r="22" stroke="currentColor" stroke-width="1.5"/>
+            <ellipse cx="24" cy="24" rx="10" ry="22" stroke="currentColor" stroke-width="1.5"/>
+            <line x1="2" y1="24" x2="46" y2="24" stroke="currentColor" stroke-width="1.5"/>
+            <line x1="24" y1="2" x2="24" y2="46" stroke="currentColor" stroke-width="1.5"/>
+          </svg>
+          <p>Visor en preparación para tu cuenta</p>
+        </div>
       </div>
     </div>
   </section>
@@ -127,6 +164,9 @@
   </footer>
 
   <script src="js/inmobiliaria.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/iris360-config.js"></script>
+  <script src="js/iris360-auth.js"></script>
 
 </body>
 </html>
