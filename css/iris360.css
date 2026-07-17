@@ -386,3 +386,18 @@
   .login-card { padding: 40px 28px; }
 }
 
+.proyectos-lista {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 16px;
+  margin-bottom: 32px;
+}
+.proyecto-card {
+  border: 1px solid var(--gris-300);
+  padding: 24px;
+  cursor: pointer;
+  transition: border-color 0.3s, transform 0.3s var(--ease-expo);
+}
+.proyecto-card:hover { border-color: var(--plata); transform: translateY(-2px); }
+.proyecto-card h4 { font-family: 'Cormorant Garamond', serif; font-weight: 400; font-size: 1.3rem; color: var(--blanco); margin-bottom: 8px; }
+.proyecto-card span { font-size: 0.7rem; letter-spacing: 2px; text-transform: uppercase; color: var(--gris-400); }

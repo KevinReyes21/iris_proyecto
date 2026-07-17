@@ -58,7 +58,13 @@
     clientePanel.classList.add('activo');
     if (clienteEmail) clienteEmail.textContent = session?.user?.email || '—';
 
-    // Punto de enganche para el motor de esferas (siguiente etapa):
+  function mostrarPanelCliente(session) {
+    loginWrapper.style.display = 'none';
+    clientePanel.classList.add('activo');
+    if (clienteEmail) clienteEmail.textContent = session?.user?.email || '—';
+
+    window.IRIS360_cargarProyectos(client, session);
+  }
     // window.dispatchEvent(new CustomEvent('iris360:login', { detail: { session } }));
   }
 
