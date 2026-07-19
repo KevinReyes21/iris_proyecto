@@ -1,6 +1,5 @@
-import { Viewer } from 'https://esm.run/@photo-sphere-viewer/core';
-import { MarkersPlugin } from 'https://esm.run/@photo-sphere-viewer/markers-plugin';
-
+import { Viewer } from '@photo-sphere-viewer/core';
+import { MarkersPlugin } from 'https://esm.sh/@photo-sphere-viewer/markers-plugin@5.14.1?external=@photo-sphere-viewer/core,three';
 let viewerActual = null;
 let mapActual = null;
 
