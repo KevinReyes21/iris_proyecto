@@ -54,22 +54,21 @@
   }
 
   function mostrarPanelCliente(session) {
+    if (introWrapper) introWrapper.style.display = 'none';
     loginWrapper.style.display = 'none';
     clientePanel.classList.add('activo');
     if (clienteEmail) clienteEmail.textContent = session?.user?.email || '—';
 
     window.IRIS360_cargarProyectos(client, session);
-
-    // window.dispatchEvent(new CustomEvent('iris360:login', { detail: { session } }));
   }
 
   function mostrarLogin() {
+    if (introWrapper) introWrapper.style.display = 'none';
     clientePanel.classList.remove('activo');
     loginWrapper.style.display = '';
     setMsg('');
     if (form) form.reset();
   }
-
   function traducirError(msg) {
     if (!msg) return 'Ocurrió un error. Intenta de nuevo.';
     if (msg.includes('Invalid login credentials')) return 'Correo o contraseña incorrectos.';
@@ -134,6 +133,12 @@
   if (logoutBtn) {
     logoutBtn.addEventListener('click', async () => {
       await client.auth.signOut();
+    });
+  }
+  if (btnComenzar) {
+    btnComenzar.addEventListener('click', () => {
+      introWrapper.style.display = 'none';
+      loginWrapper.style.display = '';
     });
   }
 

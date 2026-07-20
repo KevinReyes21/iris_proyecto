@@ -401,3 +401,10 @@
 .proyecto-card:hover { border-color: var(--plata); transform: translateY(-2px); }
 .proyecto-card h4 { font-family: 'Cormorant Garamond', serif; font-weight: 400; font-size: 1.3rem; color: var(--blanco); margin-bottom: 8px; }
 .proyecto-card span { font-size: 0.7rem; letter-spacing: 2px; text-transform: uppercase; color: var(--gris-400); }
+
+.cliente-section-solo {
+  min-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}

@@ -35,86 +35,35 @@
       <a href="index.html#trabajos">Trabajos</a>
       <a href="index.html#servicios">Servicios</a>
       <a href="index.html#conocenos">Conócenos</a>
-      <a href="#cliente">Cliente</a>
     </nav>
   </header>
 
-  <!-- ─── HERO ─── -->
-  <section class="hero">
+  <!-- ─── ÁREA CLIENTE (única sección de la página) ─── -->
+  <section id="cliente" class="cliente-section cliente-section-solo">
 
-    <video autoplay muted loop playsinline
-      style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; z-index:0;">
-      <source src="video/inmobiliaria.mp4" type="video/mp4">
-    </video>
-
-    <div style="position:absolute; inset:0; z-index:1;
-      background: linear-gradient(to right,
-        rgba(255,255,255,1) 0%,
-        rgba(255,255,255,0.95) 35%,
-        rgba(255,255,255,0.5) 65%,
-        rgba(255,255,255,0) 100%);"></div>
-
-    <p class="hero-tag reveal" style="position:relative; z-index:2;">Servicio — IRIS360</p>
-    <h1 class="reveal reveal-delay-1" style="position:relative; z-index:2;">
-      Recorridos virtuales<br><em>360° inmersivos</em>
-    </h1>
-    <p class="hero-sub reveal reveal-delay-2" style="position:relative; z-index:2;">
-      Plataforma interactiva para la comercialización de desarrollos inmobiliarios. Plano maestro con disponibilidad de lotes en tiempo real y recorrido virtual por áreas comunes desde cualquier dispositivo.
-    </p>
-    <a href="#demo" class="btn-primary reveal reveal-delay-3"
-       style="position:relative; z-index:2; width:fit-content;">
-      Ver demo interactivo
-    </a>
-
-    <div class="hero-scroll-hint" style="position:absolute; z-index:2;">
-      <div class="scroll-line"></div>
-      Scroll
+    <!-- PANTALLA 1: PRESENTACIÓN -->
+    <div id="intro-wrapper" class="login-wrapper">
+      <div class="login-card intro-card">
+        <div class="login-icon">
+          <svg width="40" height="40" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="24" cy="24" r="22" stroke="currentColor" stroke-width="1.5"/>
+            <ellipse cx="24" cy="24" rx="10" ry="22" stroke="currentColor" stroke-width="1.5"/>
+            <line x1="2" y1="24" x2="46" y2="24" stroke="currentColor" stroke-width="1.5"/>
+            <line x1="24" y1="2" x2="24" y2="46" stroke="currentColor" stroke-width="1.5"/>
+          </svg>
+        </div>
+        <h3>IRIS360</h3>
+        <p class="login-sub">
+          Recorridos virtuales 360° para la comercialización de desarrollos inmobiliarios.
+          Explora áreas comunes, plano maestro y disponibilidad de lotes en tiempo real,
+          desde cualquier dispositivo.
+        </p>
+        <button type="button" class="login-submit" id="btn-comenzar">Comenzar</button>
+      </div>
     </div>
 
-  </section>
-
-  <!-- ─── QUÉ INCLUYE ─── -->
-  <section class="incluye-section">
-    <div class="section-label reveal">Qué incluye</div>
-    <h2 class="section-titulo reveal reveal-delay-1">Una experiencia completa<br><em>para tu desarrollo</em></h2>
-
-    <div class="incluye-grid">
-
-      <div class="incluye-card reveal reveal-delay-1">
-        <div class="incluye-num">01</div>
-        <h4>Plano SVG interactivo</h4>
-        <p>Plano maestro del desarrollo con lotes coloreados por estado de venta. Verde disponible, amarillo apartado, rojo vendido. Actualización sin tocar el código.</p>
-      </div>
-
-      <div class="incluye-card reveal reveal-delay-2">
-        <div class="incluye-num">02</div>
-        <h4>Esferas panorámicas 360°</h4>
-        <p>Recorrido virtual inmersivo por áreas comunes: entrada principal, casa club, piscina, parques y áreas recreativas. Compatible con móvil y escritorio.</p>
-      </div>
-
-      <div class="incluye-card reveal reveal-delay-3">
-        <div class="incluye-num">03</div>
-        <h4>Ficha comercial por lote</h4>
-        <p>Al seleccionar un lote el usuario ve superficie, precio, estado de venta y contacto directo con el asesor. Sin salir del recorrido.</p>
-      </div>
-
-      <div class="incluye-card reveal reveal-delay-4">
-        <div class="incluye-num">04</div>
-        <h4>Inventario dinámico</h4>
-        <p>El estado de cada lote se actualiza desde un archivo JSON sin modificar las panorámicas. Disponible → Apartado → Vendido en tiempo real.</p>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- ─── ÁREA CLIENTE ─── -->
-  <section id="cliente" class="cliente-section">
-    <div class="section-label reveal">Acceso privado</div>
-    <h2 class="section-titulo reveal reveal-delay-1">Tu recorrido<br><em>360° personalizado</em></h2>
-    <p class="demo-desc reveal reveal-delay-2">Cada cliente tiene acceso a las esferas panorámicas de su propio desarrollo. Inicia sesión con las credenciales que te proporcionamos.</p>
-
-    <!-- LOGIN -->
-    <div id="login-wrapper" class="login-wrapper reveal reveal-delay-3">
+    <!-- PANTALLA 2: LOGIN -->
+    <div id="login-wrapper" class="login-wrapper" style="display:none;">
       <div class="login-card">
         <div class="login-icon">
           <svg width="40" height="40" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -146,7 +95,7 @@
       </div>
     </div>
 
-    <!-- PANEL CLIENTE (visible tras login) -->
+    <!-- PANTALLA 3: PANEL CLIENTE (proyectos + visor) -->
     <div id="cliente-panel" class="cliente-panel">
       <div class="cliente-topbar">
         <div class="cliente-info">Sesión activa — <strong id="cliente-email">—</strong></div>
@@ -161,10 +110,11 @@
             <line x1="2" y1="24" x2="46" y2="24" stroke="currentColor" stroke-width="1.5"/>
             <line x1="24" y1="2" x2="24" y2="46" stroke="currentColor" stroke-width="1.5"/>
           </svg>
-          <p>Visor en preparación para tu cuenta</p>
+          <p>Selecciona un proyecto para ver su recorrido</p>
         </div>
       </div>
     </div>
+
   </section>
 
   <!-- ─── FOOTER ─── -->
@@ -181,5 +131,6 @@
   <script src="js/iris360-auth.js"></script>
   <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
   <script type="module" src="js/visor360.js"></script>
+
 </body>
 </html>
