@@ -13,6 +13,7 @@ window.IRIS360_iniciarVisor = async function (baseUrl) {
     if (mapActual) { mapActual.remove(); mapActual = null; }
 
     contenedor.classList.add('visor-activo');
+    document.body.classList.add('visor-360-activo');
     contenedor.innerHTML = `
         <button id="btn-cerrar-visor" class="visor-close">← Proyectos</button>
         <div id="viewer" class="visor-viewer-full"></div>
@@ -179,6 +180,7 @@ function cerrarVisor() {
     if (mapActual) { mapActual.remove(); mapActual = null; }
     if (contenedor) {
         contenedor.classList.remove('visor-activo');
+        document.body.classList.remove('visor-360-activo');
         contenedor.innerHTML = `
             <div class="visor-placeholder">
               <svg width="40" height="40" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
