@@ -1,5 +1,6 @@
 import { Viewer } from '@photo-sphere-viewer/core';
 import { MarkersPlugin } from 'https://esm.sh/@photo-sphere-viewer/markers-plugin@5.14.1?external=@photo-sphere-viewer/core,three';
+
 let viewerActual = null;
 let mapActual = null;
 
@@ -8,19 +9,22 @@ window.IRIS360_iniciarVisor = async function (baseUrl) {
     const contenedor = document.getElementById('visor-iris360');
     if (!contenedor) return;
 
-    if (viewerActual) {
-        viewerActual.destroy();
-        viewerActual = null;
-    }
-    if (mapActual) {
-        mapActual.remove();
-        mapActual = null;
-    }
+    if (viewerActual) { viewerActual.destroy(); viewerActual = null; }
+    if (mapActual) { mapActual.remove(); mapActual = null; }
 
+    contenedor.classList.add('visor-activo');
     contenedor.innerHTML = `
-        <div id="mini-map" style="width:100%; height:200px; margin-bottom:12px;"></div>
-        <div id="viewer" style="width:100%; height:520px;"></div>
+        <button id="btn-cerrar-visor" class="visor-close">← Proyectos</button>
+        <div id="viewer" class="visor-viewer-full"></div>
+        <div class="visor-panel-flotante">
+          <div id="mini-map" class="visor-mapa"></div>
+          <div id="esferas-sidebar" class="visor-sidebar"></div>
+        </div>
     `;
+
+    document.getElementById('btn-cerrar-visor').addEventListener('click', () => {
+        cerrarVisor();
+    });
 
     const map = L.map('mini-map').setView([21.02, -89.57], 14);
     mapActual = map;
@@ -52,6 +56,24 @@ window.IRIS360_iniciarVisor = async function (baseUrl) {
     viewerActual = viewer;
 
     const markersPlugin = viewer.getPlugin(MarkersPlugin);
+
+    // ── Sidebar: una entrada por esfera ──
+    const sidebar = document.getElementById('esferas-sidebar');
+    sidebar.innerHTML = '';
+    Object.keys(spheres).forEach((id) => {
+        const item = document.createElement('div');
+        item.className = 'visor-sidebar-item';
+        item.dataset.id = id;
+        item.textContent = spheres[id].nombre || id;
+        item.addEventListener('click', () => loadSphere(id));
+        sidebar.appendChild(item);
+    });
+
+    function marcarSidebarActivo(id) {
+        sidebar.querySelectorAll('.visor-sidebar-item').forEach(el => {
+            el.classList.toggle('activo', el.dataset.id === id);
+        });
+    }
 
     function calcularPitch(distancia) {
         if (!distancia) return -0.10;
@@ -87,6 +109,7 @@ window.IRIS360_iniciarVisor = async function (baseUrl) {
 
         isLoading = true;
         currentSphere = id;
+        marcarSidebarActivo(id);
 
         if (markersPlugin) markersPlugin.clearMarkers();
 
@@ -121,6 +144,8 @@ window.IRIS360_iniciarVisor = async function (baseUrl) {
                     map.setView([sphere.position.lat, sphere.position.lon], 17);
                 }
                 isLoading = false;
+                setTimeout(() => viewer.resize(), 50);
+                setTimeout(() => map.invalidateSize(), 50);
             })
             .catch(err => {
                 console.error('Error cargando esfera:', id, err);
@@ -141,7 +166,32 @@ window.IRIS360_iniciarVisor = async function (baseUrl) {
         return;
     }
     loadSphere(first);
+
+    window.addEventListener('resize', () => {
+        if (viewerActual) viewerActual.resize();
+        if (mapActual) mapActual.invalidateSize();
+    });
 };
+
+function cerrarVisor() {
+    const contenedor = document.getElementById('visor-iris360');
+    if (viewerActual) { viewerActual.destroy(); viewerActual = null; }
+    if (mapActual) { mapActual.remove(); mapActual = null; }
+    if (contenedor) {
+        contenedor.classList.remove('visor-activo');
+        contenedor.innerHTML = `
+            <div class="visor-placeholder">
+              <svg width="40" height="40" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="24" cy="24" r="22" stroke="currentColor" stroke-width="1.5"/>
+                <ellipse cx="24" cy="24" rx="10" ry="22" stroke="currentColor" stroke-width="1.5"/>
+                <line x1="2" y1="24" x2="46" y2="24" stroke="currentColor" stroke-width="1.5"/>
+                <line x1="24" y1="2" x2="24" y2="46" stroke="currentColor" stroke-width="1.5"/>
+              </svg>
+              <p>Selecciona un proyecto para ver su recorrido</p>
+            </div>
+        `;
+    }
+}
 
 window.addEventListener('iris360:proyecto-elegido', (e) => {
     const prefix = e.detail?.r2_prefix;
