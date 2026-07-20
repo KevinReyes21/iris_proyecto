@@ -360,8 +360,9 @@
 .visor-sidebar-item:hover { color: var(--blanco); background: rgba(255,255,255,0.06); }
 .visor-sidebar-item.activo { color: var(--plata-viva); background: rgba(255,255,255,0.1); }
 
-/* Header oculto mientras el visor 360 está en pantalla completa */
+/* Header y footer ocultos mientras el visor 360 está en pantalla completa */
 body.visor-360-activo .header { display: none; }
+body.visor-360-activo footer { display: none; }
 
 @media (max-width: 640px) {
   .visor-panel-flotante { width: 200px; top: 12px; right: 12px; }

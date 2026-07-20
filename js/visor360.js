@@ -27,7 +27,7 @@ window.IRIS360_iniciarVisor = async function (baseUrl) {
         cerrarVisor();
     });
 
-    const map = L.map('mini-map').setView([21.02, -89.57], 14);
+    const map = L.map('mini-map');
     mapActual = map;
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '&copy; OpenStreetMap',
@@ -39,6 +39,16 @@ window.IRIS360_iniciarVisor = async function (baseUrl) {
         const res = await fetch(baseUrl + 'hotspots.json');
         if (!res.ok) throw new Error('HTTP ' + res.status);
         spheres = await res.json();
+        map.invalidateSize();
+        const puntos = Object.values(spheres)
+            .filter(s => s.position)
+            .map(s => [s.position.lat, s.position.lon]);
+
+        if (puntos.length > 0) {
+            map.fitBounds(puntos, { padding: [30, 30] });
+        } else {
+            map.setView([21.02, -89.57], 14);
+        }
     } catch (err) {
         console.error('Error cargando hotspots.json:', err);
         contenedor.innerHTML = '<div style="color:white;text-align:center;padding:60px 20px;">Error al cargar el recorrido.</div>';
