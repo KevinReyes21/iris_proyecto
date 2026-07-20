@@ -6,8 +6,6 @@ let mapActual = null;
 window.IRIS360_iniciarVisor = async function (baseUrl) {
 
     const contenedor = document.getElementById('visor-iris360');
-    const introWrapper = document.getElementById('intro-wrapper');
-    const btnComenzar  = document.getElementById('btn-comenzar');
     if (!contenedor) return;
 
     if (viewerActual) {

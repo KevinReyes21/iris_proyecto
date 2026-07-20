@@ -20,6 +20,8 @@
   const loginBtn  = document.getElementById('login-btn');
   const msgEl     = document.getElementById('login-msg');
   const logoutBtn = document.getElementById('logout-btn');
+  const introWrapper = document.getElementById('intro-wrapper');
+  const btnComenzar  = document.getElementById('btn-comenzar');
 
   // ── Config sin llenar todavía ──
   const configPendiente =
