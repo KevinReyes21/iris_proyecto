@@ -254,15 +254,7 @@
 }
 .btn-logout:hover { color: var(--plata-viva); border-color: var(--plata); }
 
-#visor-iris360 {
-  width: 100%;
-  min-height: 520px;
-  border: 1px solid var(--gris-300);
-  background: var(--gris-100);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
+#visor-iris360 { display: none; }
 
 .visor-placeholder {
   text-align: center;
