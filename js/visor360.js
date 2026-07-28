@@ -30,9 +30,10 @@ window.IRIS360_iniciarVisor = async function (baseUrl, logoUrl) {
 
         <div id="viewer" class="visor-viewer-full"></div>
 
-        <div class="visor-panel-flotante">
-          <div id="mini-map" class="visor-mapa"></div>
-          <div id="esferas-sidebar" class="visor-sidebar"></div>
+        <div class="visor-panel-flotante" id="panel-flotante">
+        <button id="btn-toggle-panel" class="visor-panel-toggle">‹</button>
+        <div id="mini-map" class="visor-mapa"></div>
+        <div id="esferas-sidebar" class="visor-sidebar"></div>
         </div>
 
         <div id="video-modal" class="video-modal-overlay" style="display:none;">
@@ -44,7 +45,17 @@ window.IRIS360_iniciarVisor = async function (baseUrl, logoUrl) {
     `;
 
     document.getElementById('btn-cerrar-visor').addEventListener('click', () => cerrarVisor());
-
+    document.getElementById('btn-toggle-panel').addEventListener('click', () => {
+        const panel = document.getElementById('panel-flotante');
+        const btn = document.getElementById('btn-toggle-panel');
+        panel.classList.toggle('colapsado');
+        if (panel.classList.contains('colapsado')) {
+            btn.textContent = '+';
+        } else {
+            btn.textContent = '‹';
+            setTimeout(() => { if (mapActual) mapActual.invalidateSize(); }, 300);
+        }
+    });
     if (logoUrl) {
         const logoEl = document.getElementById('visor-info-logo');
         logoEl.src = baseUrl + logoUrl.replace(/^\//, '');

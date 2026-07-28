@@ -378,7 +378,40 @@
   flex-direction: column;
   gap: 18px;
   padding-bottom: 4px;
+  padding-top: 36px;
+  transition: width 0.3s ease;
 }
+
+.visor-panel-flotante.colapsado {
+  width: 44px;
+  padding-bottom: 8px;
+  gap: 0;
+}
+.visor-panel-flotante.colapsado .visor-mapa,
+.visor-panel-flotante.colapsado .visor-sidebar {
+  display: none;
+}
+
+.visor-panel-toggle {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  z-index: 30;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  color: var(--blanco);
+  font-size: 0.85rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  transition: background 0.2s;
+}
+.visor-panel-toggle:hover { background: rgba(255, 255, 255, 0.25); }
 
 .visor-mapa {
   width: 100%;
