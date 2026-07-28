@@ -47,7 +47,7 @@ window.IRIS360_iniciarVisor = async function (baseUrl, logoUrl) {
 
     if (logoUrl) {
         const logoEl = document.getElementById('visor-info-logo');
-        logoEl.src = baseUrl + logoUrl;
+        logoEl.src = baseUrl + logoUrl.replace(/^\//, '');
         logoEl.style.display = 'block';
     }
 
@@ -141,7 +141,7 @@ window.IRIS360_iniciarVisor = async function (baseUrl, logoUrl) {
             .map((l, index) => {
                 const destino = spheres[l.to] || {};
                 const etiqueta = destino.titulo || l.tooltip || ('Ir a ' + l.to);
-                const thumb = destino.imagen ? (baseUrl + 'imagenes/' + destino.imagen) : null;
+                const thumb = destino.imagen ? (baseUrl + 'imagenes/' + destino.imagen.replace(/^\//, '')) : null;
 
                 const html = `
                     <div class="hotspot-link">
@@ -201,7 +201,7 @@ window.IRIS360_iniciarVisor = async function (baseUrl, logoUrl) {
 
         if (markersPlugin) markersPlugin.clearMarkers();
 
-        viewer.setPanorama(baseUrl + sphere.texture, { transition: true, showLoader: true })
+        viewer.setPanorama(baseUrl + sphere.texture.replace(/^\//, ''), { transition: true, showLoader: true })
             .then(() => {
                 if (markersPlugin) {
                     markersPlugin.clearMarkers();
