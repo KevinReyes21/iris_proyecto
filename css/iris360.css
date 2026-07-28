@@ -420,11 +420,9 @@ body.visor-360-activo footer { display: none; }
 
 
 
-
-
 .visor-info-card {
   position: absolute;
-  top: 24px;
+  top: 80px;
   left: 24px;
   z-index: 20;
   width: 320px;

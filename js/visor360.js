@@ -153,6 +153,7 @@ window.IRIS360_iniciarVisor = async function (baseUrl, logoUrl) {
                 return {
                     id: `link_${sphere.nombre}_${l.to}_${index}`,
                     html,
+                    size: { width: 90, height: 100 },
                     anchor: 'center center',
                     position: { yaw: l.yaw, pitch: calcularPitch(l.distance) },
                     data: { target: l.to }
