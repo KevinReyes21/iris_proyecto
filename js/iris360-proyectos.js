@@ -16,7 +16,7 @@ window.IRIS360_cargarProyectos = async function (client, session) {
 
   const { data, error } = await client
     .from('usuario_proyectos')
-    .select('proyectos ( id, nombre, r2_prefix )')
+    .select('proyectos ( id, nombre, r2_prefix, logo_url )')
     .eq('user_id', session.user.id);
 
   if (error) {
@@ -38,7 +38,7 @@ window.IRIS360_cargarProyectos = async function (client, session) {
     card.innerHTML = `<h4>${proyectos.nombre}</h4><span>Ver recorrido →</span>`;
     card.addEventListener('click', () => {
       window.dispatchEvent(new CustomEvent('iris360:proyecto-elegido', {
-        detail: { id: proyectos.id, nombre: proyectos.nombre, r2_prefix: proyectos.r2_prefix }
+        detail: { id: proyectos.id, nombre: proyectos.nombre, r2_prefix: proyectos.r2_prefix, logo_url: proyectos.logo_url }
       }));
     });
     cont.appendChild(card);

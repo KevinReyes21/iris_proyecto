@@ -4,7 +4,7 @@ import { MarkersPlugin } from 'https://esm.sh/@photo-sphere-viewer/markers-plugi
 let viewerActual = null;
 let mapActual = null;
 
-window.IRIS360_iniciarVisor = async function (baseUrl) {
+window.IRIS360_iniciarVisor = async function (baseUrl, logoUrl) {
 
     const contenedor = document.getElementById('visor-iris360');
     if (!contenedor) return;
@@ -16,16 +16,56 @@ window.IRIS360_iniciarVisor = async function (baseUrl) {
     document.body.classList.add('visor-360-activo');
     contenedor.innerHTML = `
         <button id="btn-cerrar-visor" class="visor-close">← Proyectos</button>
+
+        <div id="visor-info-card" class="visor-info-card">
+          <div class="visor-info-top">
+            <img id="visor-info-logo" class="visor-info-logo" style="display:none;" alt="Logo">
+          </div>
+          <h3 id="visor-info-titulo"></h3>
+          <p id="visor-info-desc"></p>
+          <button id="visor-info-video-btn" class="visor-video-btn" style="display:none;">
+            ▶ Ver video
+          </button>
+        </div>
+
         <div id="viewer" class="visor-viewer-full"></div>
+
         <div class="visor-panel-flotante">
           <div id="mini-map" class="visor-mapa"></div>
           <div id="esferas-sidebar" class="visor-sidebar"></div>
         </div>
+
+        <div id="video-modal" class="video-modal-overlay" style="display:none;">
+          <div class="video-modal-box">
+            <button id="video-modal-cerrar" class="video-modal-cerrar">✕</button>
+            <div id="video-modal-frame"></div>
+          </div>
+        </div>
     `;
 
-    document.getElementById('btn-cerrar-visor').addEventListener('click', () => {
-        cerrarVisor();
+    document.getElementById('btn-cerrar-visor').addEventListener('click', () => cerrarVisor());
+
+    if (logoUrl) {
+        const logoEl = document.getElementById('visor-info-logo');
+        logoEl.src = baseUrl + logoUrl;
+        logoEl.style.display = 'block';
+    }
+
+    const infoTitulo = document.getElementById('visor-info-titulo');
+    const infoDesc = document.getElementById('visor-info-desc');
+    const infoVideoBtn = document.getElementById('visor-info-video-btn');
+
+    const videoModal = document.getElementById('video-modal');
+    const videoFrame = document.getElementById('video-modal-frame');
+    document.getElementById('video-modal-cerrar').addEventListener('click', cerrarVideoModal);
+    videoModal.addEventListener('click', (e) => {
+        if (e.target === videoModal) cerrarVideoModal();
     });
+
+    function cerrarVideoModal() {
+        videoModal.style.display = 'none';
+        videoFrame.innerHTML = ''; // detiene la reproducción al quitar el iframe
+    }
 
     const map = L.map('mini-map');
     mapActual = map;
@@ -39,20 +79,20 @@ window.IRIS360_iniciarVisor = async function (baseUrl) {
         const res = await fetch(baseUrl + 'hotspots.json');
         if (!res.ok) throw new Error('HTTP ' + res.status);
         spheres = await res.json();
-        map.invalidateSize();
-        const puntos = Object.values(spheres)
-            .filter(s => s.position)
-            .map(s => [s.position.lat, s.position.lon]);
-
-        if (puntos.length > 0) {
-            map.fitBounds(puntos, { padding: [30, 30] });
-        } else {
-            map.setView([21.02, -89.57], 14);
-        }
     } catch (err) {
         console.error('Error cargando hotspots.json:', err);
         contenedor.innerHTML = '<div style="color:white;text-align:center;padding:60px 20px;">Error al cargar el recorrido.</div>';
         return;
+    }
+
+    map.invalidateSize();
+    const puntos = Object.values(spheres)
+        .filter(s => s.position)
+        .map(s => [s.position.lat, s.position.lon]);
+    if (puntos.length > 0) {
+        map.fitBounds(puntos, { padding: [30, 30] });
+    } else {
+        map.setView([21.02, -89.57], 14);
     }
 
     const viewer = new Viewer({
@@ -75,7 +115,7 @@ window.IRIS360_iniciarVisor = async function (baseUrl) {
         const item = document.createElement('div');
         item.className = 'visor-sidebar-item';
         item.dataset.id = id;
-        item.textContent = spheres[id].nombre || id;
+        item.textContent = spheres[id].titulo || spheres[id].nombre || id;
         item.addEventListener('click', () => loadSphere(id));
         sidebar.appendChild(item);
     });
@@ -98,20 +138,55 @@ window.IRIS360_iniciarVisor = async function (baseUrl) {
         if (!sphere?.links || sphere.links.length === 0) return [];
         return sphere.links
             .filter(l => l?.to && Number.isFinite(l.yaw) && Number.isFinite(l.pitch))
-            .map((l, index) => ({
-                id: `link_${sphere.nombre}_${l.to}_${index}`,
-                image: 'https://maps.google.com/mapfiles/ms/icons/red-dot.png',
-                size: { width: 48, height: 48 },
-                anchor: 'center center',
-                position: { yaw: l.yaw, pitch: calcularPitch(l.distance) },
-                tooltip: { content: l.tooltip || ('Ir a ' + l.to), position: 'top center' },
-                data: { target: l.to }
-            }));
+            .map((l, index) => {
+                const destino = spheres[l.to] || {};
+                const etiqueta = destino.titulo || l.tooltip || ('Ir a ' + l.to);
+                const thumb = destino.imagen ? (baseUrl + destino.imagen) : null;
+
+                const html = `
+                    <div class="hotspot-link">
+                      ${thumb ? `<img src="${thumb}" alt="">` : ''}
+                      <span>${etiqueta}</span>
+                    </div>
+                `;
+
+                return {
+                    id: `link_${sphere.nombre}_${l.to}_${index}`,
+                    html,
+                    anchor: 'center center',
+                    position: { yaw: l.yaw, pitch: calcularPitch(l.distance) },
+                    data: { target: l.to }
+                };
+            });
     }
 
     let isLoading = false;
     let currentSphere = null;
     const mapMarkers = [];
+
+    function actualizarInfoCard(sphere) {
+        infoTitulo.textContent = sphere.titulo || sphere.nombre || '';
+        infoDesc.textContent = sphere.descripcion || '';
+
+        if (sphere.video) {
+            infoVideoBtn.style.display = 'inline-flex';
+            infoVideoBtn.onclick = () => {
+                videoFrame.innerHTML = `
+                    <iframe
+                      width="100%" height="100%"
+                      src="https://www.youtube-nocookie.com/embed/${sphere.video}?autoplay=1"
+                      title="Video" frameborder="0"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowfullscreen>
+                    </iframe>
+                `;
+                videoModal.style.display = 'flex';
+            };
+        } else {
+            infoVideoBtn.style.display = 'none';
+            infoVideoBtn.onclick = null;
+        }
+    }
 
     function loadSphere(id) {
         const sphere = spheres[id];
@@ -121,6 +196,7 @@ window.IRIS360_iniciarVisor = async function (baseUrl) {
         isLoading = true;
         currentSphere = id;
         marcarSidebarActivo(id);
+        actualizarInfoCard(sphere);
 
         if (markersPlugin) markersPlugin.clearMarkers();
 
@@ -188,20 +264,10 @@ function cerrarVisor() {
     const contenedor = document.getElementById('visor-iris360');
     if (viewerActual) { viewerActual.destroy(); viewerActual = null; }
     if (mapActual) { mapActual.remove(); mapActual = null; }
+    document.body.classList.remove('visor-360-activo');
     if (contenedor) {
         contenedor.classList.remove('visor-activo');
-        document.body.classList.remove('visor-360-activo');
-        contenedor.innerHTML = `
-            <div class="visor-placeholder">
-              <svg width="40" height="40" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <circle cx="24" cy="24" r="22" stroke="currentColor" stroke-width="1.5"/>
-                <ellipse cx="24" cy="24" rx="10" ry="22" stroke="currentColor" stroke-width="1.5"/>
-                <line x1="2" y1="24" x2="46" y2="24" stroke="currentColor" stroke-width="1.5"/>
-                <line x1="24" y1="2" x2="24" y2="46" stroke="currentColor" stroke-width="1.5"/>
-              </svg>
-              <p>Selecciona un proyecto para ver su recorrido</p>
-            </div>
-        `;
+        contenedor.innerHTML = '';
     }
 }
 
@@ -209,5 +275,6 @@ window.addEventListener('iris360:proyecto-elegido', (e) => {
     const prefix = e.detail?.r2_prefix;
     if (!prefix || !window.IRIS360_R2_BASE_URL) return;
     const baseUrl = window.IRIS360_R2_BASE_URL.replace(/\/$/, '') + '/' + prefix.replace(/^\//, '');
-    window.IRIS360_iniciarVisor(baseUrl.endsWith('/') ? baseUrl : baseUrl + '/');
+    const full = baseUrl.endsWith('/') ? baseUrl : baseUrl + '/';
+    window.IRIS360_iniciarVisor(full, e.detail?.logo_url || null);
 });
