@@ -141,7 +141,7 @@ window.IRIS360_iniciarVisor = async function (baseUrl, logoUrl) {
             .map((l, index) => {
                 const destino = spheres[l.to] || {};
                 const etiqueta = destino.titulo || l.tooltip || ('Ir a ' + l.to);
-                const thumb = destino.imagen ? (baseUrl + destino.imagen) : null;
+                const thumb = destino.imagen ? (baseUrl + 'imagenes/' + destino.imagen) : null;
 
                 const html = `
                     <div class="hotspot-link">
