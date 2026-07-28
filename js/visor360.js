@@ -178,9 +178,7 @@ window.IRIS360_iniciarVisor = async function (baseUrl, logoUrl) {
             });
     }
 
-    let isLoading = false;
-    let currentSphere = null;
-    const mapMarkers = [];
+
     let isLoading = false;
     let currentSphere = null;
     let ultimaVistaMapa = null;
