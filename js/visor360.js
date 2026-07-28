@@ -30,8 +30,8 @@ window.IRIS360_iniciarVisor = async function (baseUrl, logoUrl) {
 
         <div id="viewer" class="visor-viewer-full"></div>
 
-        <div class="visor-panel-flotante" id="panel-flotante">
-        <button id="btn-toggle-panel" class="visor-panel-toggle">‹</button>
+        <div class="visor-panel-flotante colapsado" id="panel-flotante">
+        <button id="btn-toggle-panel" class="visor-panel-toggle">+</button>
         <div id="mini-map" class="visor-mapa"></div>
         <div id="esferas-sidebar" class="visor-sidebar"></div>
         </div>
@@ -53,7 +53,14 @@ window.IRIS360_iniciarVisor = async function (baseUrl, logoUrl) {
             btn.textContent = '+';
         } else {
             btn.textContent = '‹';
-            setTimeout(() => { if (mapActual) mapActual.invalidateSize(); }, 300);
+            setTimeout(() => {
+                if (mapActual) {
+                    mapActual.invalidateSize();
+                    if (todosLosPuntos.length > 0) {
+                        mapActual.fitBounds(todosLosPuntos, { padding: [30, 30] });
+                    }
+                }
+            }, 300);
         }
     });
     if (logoUrl) {
@@ -97,15 +104,14 @@ window.IRIS360_iniciarVisor = async function (baseUrl, logoUrl) {
     }
 
     map.invalidateSize();
-    const puntos = Object.values(spheres)
+    const todosLosPuntos = Object.values(spheres)
         .filter(s => s.position)
         .map(s => [s.position.lat, s.position.lon]);
-    if (puntos.length > 0) {
-        map.fitBounds(puntos, { padding: [30, 30] });
+    if (todosLosPuntos.length > 0) {
+        map.fitBounds(todosLosPuntos, { padding: [30, 30] });
     } else {
         map.setView([21.02, -89.57], 14);
     }
-
     const viewer = new Viewer({
         container: document.querySelector('#viewer'),
         panorama: '',
@@ -174,6 +180,10 @@ window.IRIS360_iniciarVisor = async function (baseUrl, logoUrl) {
 
     let isLoading = false;
     let currentSphere = null;
+    const mapMarkers = [];
+    let isLoading = false;
+    let currentSphere = null;
+    let ultimaVistaMapa = null;
     const mapMarkers = [];
 
     function actualizarInfoCard(sphere) {
