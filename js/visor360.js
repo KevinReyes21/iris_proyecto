@@ -4,7 +4,7 @@ import { MarkersPlugin } from 'https://esm.sh/@photo-sphere-viewer/markers-plugi
 let viewerActual = null;
 let mapActual = null;
 
-window.IRIS360_iniciarVisor = async function (baseUrl, logoUrl) {
+window.IRIS360_iniciarVisor = async function (baseUrl, logoUrl, nombreProyecto) {
 
     const contenedor = document.getElementById('visor-iris360');
     if (!contenedor) return;
@@ -18,14 +18,16 @@ window.IRIS360_iniciarVisor = async function (baseUrl, logoUrl) {
         <button id="btn-cerrar-visor" class="visor-close">← Proyectos</button>
 
         <div id="visor-info-card" class="visor-info-card">
-          <div class="visor-info-top">
-            <img id="visor-info-logo" class="visor-info-logo" style="display:none;" alt="Logo">
-          </div>
           <h3 id="visor-info-titulo"></h3>
           <p id="visor-info-desc"></p>
           <button id="visor-info-video-btn" class="visor-video-btn" style="display:none;">
             ▶ Ver video
           </button>
+        </div>
+
+        <div id="visor-top-bar" class="visor-top-bar">
+            <span id="visor-top-nombre" class="visor-top-nombre"></span>
+            <img id="visor-info-logo" class="visor-info-logo" style="display:none;" alt="Logo">
         </div>
 
         <div id="viewer" class="visor-viewer-full"></div>
@@ -63,6 +65,7 @@ window.IRIS360_iniciarVisor = async function (baseUrl, logoUrl) {
             }, 300);
         }
     });
+    document.getElementById('visor-top-nombre').textContent = nombreProyecto || '';
     if (logoUrl) {
         const logoEl = document.getElementById('visor-info-logo');
         logoEl.src = baseUrl + logoUrl.replace(/^\//, '');
@@ -296,5 +299,5 @@ window.addEventListener('iris360:proyecto-elegido', (e) => {
     if (!prefix || !window.IRIS360_R2_BASE_URL) return;
     const baseUrl = window.IRIS360_R2_BASE_URL.replace(/\/$/, '') + '/' + prefix.replace(/^\//, '');
     const full = baseUrl.endsWith('/') ? baseUrl : baseUrl + '/';
-    window.IRIS360_iniciarVisor(full, e.detail?.logo_url || null);
+    window.IRIS360_iniciarVisor(full, e.detail?.logo_url || null, e.detail?.nombre || null);
 });
