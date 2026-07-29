@@ -602,7 +602,7 @@ body.visor-360-activo footer { display: none; }
 .visor-top-nombre {
   font-family: 'Cormorant Garamond', serif;
   font-weight: 400;
-  font-size: 1.3rem;
+  font-size: 2.5rem;
   color: var(--blanco);
   text-shadow: 0 2px 10px rgba(0, 0, 0, 0.75);
   white-space: nowrap;
