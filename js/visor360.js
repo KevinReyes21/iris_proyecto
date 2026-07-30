@@ -21,7 +21,7 @@ window.IRIS360_iniciarVisor = async function (baseUrl, logoUrl, nombreProyecto) 
           <h3 id="visor-info-titulo"></h3>
           <p id="visor-info-desc"></p>
           <button id="visor-info-video-btn" class="visor-video-btn" style="display:none;">
-            ▶ Ver video
+          Ver video
           </button>
         </div>
 
@@ -135,11 +135,17 @@ window.IRIS360_iniciarVisor = async function (baseUrl, logoUrl, nombreProyecto) 
         const item = document.createElement('div');
         item.className = 'visor-sidebar-item';
         item.dataset.id = id;
-        item.textContent = spheres[id].titulo || spheres[id].nombre || id;
+
+        const s = spheres[id];
+        const thumbUrl = s.imagen ? (baseUrl + 'imagenes/' + s.imagen.replace(/^\//, '')) : null;
+
+        item.innerHTML = `
+            ${thumbUrl ? `<img src="${thumbUrl}" alt="">` : '<div class="sidebar-item-noimg"></div>'}
+            <span>${s.titulo || s.nombre || id}</span>
+        `;
         item.addEventListener('click', () => loadSphere(id));
         sidebar.appendChild(item);
     });
-
     function marcarSidebarActivo(id) {
         sidebar.querySelectorAll('.visor-sidebar-item').forEach(el => {
             el.classList.toggle('activo', el.dataset.id === id);
@@ -165,8 +171,8 @@ window.IRIS360_iniciarVisor = async function (baseUrl, logoUrl, nombreProyecto) 
 
                 const html = `
                     <div class="hotspot-link">
-                      ${thumb ? `<img src="${thumb}" alt="">` : ''}
-                      <span>${etiqueta}</span>
+                    <span>${etiqueta}</span>
+                    ${thumb ? `<img src="${thumb}" alt="">` : ''}
                     </div>
                 `;
 
