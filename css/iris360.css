@@ -687,3 +687,272 @@ body.visor-360-activo footer { display: none; }
   text-shadow: 0 2px 10px rgba(0, 0, 0, 0.75);
   white-space: nowrap;
 }
+
+.poi-wrapper {
+  position: absolute;
+  top: 80px;
+  left: 24px;
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  width: 280px;
+  max-width: calc(100vw - 48px);
+}
+
+.poi-panel {
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-radius: 8px;
+  padding: 16px;
+  max-height: 60vh;
+  display: flex;
+  flex-direction: column;
+}
+.poi-panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+.poi-panel-header span {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: #FFFFFF;
+}
+
+.poi-panel-toggle {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: var(--blanco);
+  cursor: pointer;
+  font-size: 0.8rem;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+}
+.poi-panel-toggle:hover { background: rgba(255, 255, 255, 0.2); }
+
+.poi-panel {
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-radius: 8px;
+  padding: 16px;
+  max-height: 60vh;
+  width: 280px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: width 0.3s ease;
+}
+
+.poi-panel.colapsado {
+  width: 190px;
+  padding: 10px 14px;
+}
+.poi-panel.colapsado .poi-categorias,
+.poi-panel.colapsado .poi-lista {
+  display: none;
+}
+.poi-panel.colapsado .poi-panel-header {
+  margin-bottom: 0;
+}
+.poi-panel.colapsado .poi-panel-header span {
+  display: none;
+}
+
+.poi-categorias {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+
+.poi-chip {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: rgba(255, 255, 255, 0.75);
+  padding: 5px 10px;
+  border-radius: 999px;
+  font-size: 0.68rem;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.2s, color 0.2s;
+}
+.poi-chip:hover { background: rgba(255, 255, 255, 0.18); }
+.poi-chip.activo {
+  background: var(--iris-acento);
+  border-color: var(--iris-acento);
+  color: #fff;
+}
+
+.poi-lista {
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.poi-lista-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 4px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+.poi-lista-item:last-child { border-bottom: none; }
+
+.poi-lista-icono {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--iris-acento);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.poi-lista-texto {
+  display: flex;
+  flex-direction: column;
+}
+.poi-lista-texto strong {
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: #FFFFFF;
+  line-height: 1.3;
+}
+.poi-lista-texto small {
+  font-size: 0.68rem;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.poi-lista-vacio {
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.5);
+  padding: 8px 4px;
+}
+
+/* ── Marcadores estáticos de puntos de interés en la esfera ── */
+.poi-marker {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  pointer-events: auto;
+  cursor: default;
+}
+
+.poi-marker-pill {
+  background: rgba(15, 15, 15, 0.8);
+  border: 1.5px solid rgba(255, 255, 255, 0.5);
+  border-radius: 50%;
+  padding: 6px;
+  transition: transform 0.15s, border-color 0.15s;
+}
+.poi-marker:hover .poi-marker-pill {
+  transform: scale(1.15);
+  border-color: var(--iris-acento);
+}
+
+.poi-marker-icon {
+  color: var(--iris-acento);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+}
+
+.poi-marker-linea {
+  width: 1px;
+  height: 18px;
+  background: rgba(255, 255, 255, 0.4);
+}
+
+.poi-marker-punto {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--iris-acento);
+  border: 1.5px solid rgba(255, 255, 255, 0.8);
+  margin-top: -2px;
+}
+
+.poi-marker-tooltip {
+  position: absolute;
+  bottom: 100%;
+  margin-bottom: 6px;
+  background: rgba(15, 15, 15, 0.92);
+  backdrop-filter: blur(8px);
+  padding: 6px 10px;
+  border-radius: 6px;
+  white-space: nowrap;
+  display: flex;
+  flex-direction: column;
+  line-height: 1.25;
+  opacity: 0;
+  transform: translateY(4px);
+  pointer-events: none;
+  transition: opacity 0.15s, transform 0.15s;
+}
+.poi-marker-tooltip strong {
+  color: var(--blanco);
+  font-size: 0.68rem;
+  font-weight: 500;
+}
+.poi-marker-tooltip small {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.6rem;
+}
+.poi-marker:hover .poi-marker-tooltip {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ── Scrollbars minimalistas (panel POI y sidebar de esferas) ── */
+.poi-lista,
+.visor-sidebar {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.25) transparent;
+}
+
+.poi-lista::-webkit-scrollbar,
+.visor-sidebar::-webkit-scrollbar {
+  width: 4px;
+}
+.poi-lista::-webkit-scrollbar-track,
+.visor-sidebar::-webkit-scrollbar-track {
+  background: transparent;
+}
+.poi-lista::-webkit-scrollbar-thumb,
+.visor-sidebar::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.25);
+  border-radius: 999px;
+}
+.poi-lista::-webkit-scrollbar-thumb:hover,
+.visor-sidebar::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.4);
+}
+
+.cono-vision-wrapper { pointer-events: none; }
+
+.cono-vision-inner {
+  width: 140px;
+  height: 140px;
+  clip-path: polygon(50% 50%, 26.8% 9.8%, 73.2% 9.8%);
+  background: radial-gradient(circle at 50% 50%, rgba(10, 132, 255, 0.5) 0%, rgba(10, 132, 255, 0.15) 60%, transparent 100%);
+  transform-origin: 50% 50%;
+  transition: transform 0.05s linear;
+}

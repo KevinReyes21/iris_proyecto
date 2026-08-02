@@ -15,37 +15,42 @@ window.IRIS360_iniciarVisor = async function (baseUrl, logoUrl, nombreProyecto) 
     contenedor.classList.add('visor-activo');
     document.body.classList.add('visor-360-activo');
     contenedor.innerHTML = `
-        <button id="btn-cerrar-visor" class="visor-close">← Proyectos</button>
+    <button id="btn-cerrar-visor" class="visor-close">← Proyectos</button>
 
-        <div id="visor-info-card" class="visor-info-card">
-          <h3 id="visor-info-titulo"></h3>
-          <p id="visor-info-desc"></p>
-          <button id="visor-info-video-btn" class="visor-video-btn" style="display:none;">
-          Ver video
-          </button>
+    <div id="poi-wrapper" class="poi-wrapper">
+    <div id="poi-panel" class="poi-panel">
+        <div class="poi-panel-header">
+        <span>Puntos de interés</span>
+        <button id="btn-toggle-poi" class="poi-panel-toggle">‹</button>
         </div>
+        <div id="poi-categorias" class="poi-categorias"></div>
+        <div id="poi-lista" class="poi-lista"></div>
+    </div>
+    <button id="visor-info-video-btn" class="visor-video-btn" style="display:none;">
+        Ver video
+    </button>
+    </div>
 
-        <div id="visor-top-bar" class="visor-top-bar">
-            <span id="visor-top-nombre" class="visor-top-nombre"></span>
-            <img id="visor-info-logo" class="visor-info-logo" style="display:none;" alt="Logo">
-        </div>
+    <div id="visor-top-bar" class="visor-top-bar">
+        <span id="visor-top-nombre" class="visor-top-nombre"></span>
+        <img id="visor-info-logo" class="visor-info-logo" style="display:none;" alt="Logo">
+    </div>
 
-        <div id="viewer" class="visor-viewer-full"></div>
+    <div id="viewer" class="visor-viewer-full"></div>
 
-        <div class="visor-panel-flotante colapsado" id="panel-flotante">
-        <button id="btn-toggle-panel" class="visor-panel-toggle">+</button>
-        <div id="mini-map" class="visor-mapa"></div>
-        <div id="esferas-sidebar" class="visor-sidebar"></div>
-        </div>
+    <div class="visor-panel-flotante colapsado" id="panel-flotante">
+    <button id="btn-toggle-panel" class="visor-panel-toggle">+</button>
+    <div id="mini-map" class="visor-mapa"></div>
+    <div id="esferas-sidebar" class="visor-sidebar"></div>
+    </div>
 
-        <div id="video-modal" class="video-modal-overlay" style="display:none;">
-          <div class="video-modal-box">
-            <button id="video-modal-cerrar" class="video-modal-cerrar">✕</button>
-            <div id="video-modal-frame"></div>
-          </div>
-        </div>
-    `;
-
+    <div id="video-modal" class="video-modal-overlay" style="display:none;">
+      <div class="video-modal-box">
+        <button id="video-modal-cerrar" class="video-modal-cerrar">✕</button>
+        <div id="video-modal-frame"></div>
+      </div>
+    </div>
+`;
     document.getElementById('btn-cerrar-visor').addEventListener('click', () => cerrarVisor());
     document.getElementById('btn-toggle-panel').addEventListener('click', () => {
         const panel = document.getElementById('panel-flotante');
@@ -65,6 +70,12 @@ window.IRIS360_iniciarVisor = async function (baseUrl, logoUrl, nombreProyecto) 
             }, 300);
         }
     });
+    document.getElementById('btn-toggle-poi').addEventListener('click', () => {
+    const panel = document.getElementById('poi-panel');
+    const btn = document.getElementById('btn-toggle-poi');
+    panel.classList.toggle('colapsado');
+    btn.textContent = panel.classList.contains('colapsado') ? '›' : '‹';
+});
     document.getElementById('visor-top-nombre').textContent = nombreProyecto || '';
     if (logoUrl) {
         const logoEl = document.getElementById('visor-info-logo');
@@ -72,8 +83,6 @@ window.IRIS360_iniciarVisor = async function (baseUrl, logoUrl, nombreProyecto) 
         logoEl.style.display = 'block';
     }
 
-    const infoTitulo = document.getElementById('visor-info-titulo');
-    const infoDesc = document.getElementById('visor-info-desc');
     const infoVideoBtn = document.getElementById('visor-info-video-btn');
 
     const videoModal = document.getElementById('video-modal');
@@ -97,13 +106,78 @@ window.IRIS360_iniciarVisor = async function (baseUrl, logoUrl, nombreProyecto) 
 
     let spheres = {};
     try {
-        const res = await fetch(baseUrl + 'hotspots.json');
+        const res = await fetch(baseUrl + 'hotspots.json?t=' + Date.now());
         if (!res.ok) throw new Error('HTTP ' + res.status);
         spheres = await res.json();
     } catch (err) {
         console.error('Error cargando hotspots.json:', err);
         contenedor.innerHTML = '<div style="color:white;text-align:center;padding:60px 20px;">Error al cargar el recorrido.</div>';
         return;
+    }
+    let categoriaActiva = 'todos';
+    const categoriasMap = new Map();
+    Object.values(spheres).forEach(s => {
+        (s.poi || []).forEach(p => {
+            const key = normalizarTexto(p.categoria);
+            if (!categoriasMap.has(key)) categoriasMap.set(key, p.categoria);
+        });
+    });
+
+    function renderCategorias() {
+        const cont = document.getElementById('poi-categorias');
+        if (!cont) return;
+        cont.innerHTML = '';
+
+        const todos = document.createElement('button');
+        todos.className = 'poi-chip' + (categoriaActiva === 'todos' ? ' activo' : '');
+        todos.textContent = 'Todos';
+        todos.addEventListener('click', () => { categoriaActiva = 'todos'; refrescarPOI(); });
+        cont.appendChild(todos);
+
+        categoriasMap.forEach((label, key) => {
+            const btn = document.createElement('button');
+            btn.className = 'poi-chip' + (categoriaActiva === key ? ' activo' : '');
+            btn.innerHTML = `<span class="poi-chip-icon">${iconoCategoria(label)}</span>${label}`;            btn.addEventListener('click', () => { categoriaActiva = key; refrescarPOI(); });
+            cont.appendChild(btn);
+        });
+    }
+
+    function renderListaPOI(sphere) {
+        const cont = document.getElementById('poi-lista');
+        if (!cont) return;
+        cont.innerHTML = '';
+
+        const items = (sphere.poi || []).filter(p => categoriaActiva === 'todos' || normalizarTexto(p.categoria) === categoriaActiva);
+
+        if (items.length === 0) {
+            cont.innerHTML = '<p class="poi-lista-vacio">Sin puntos en esta categoría.</p>';
+            return;
+        }
+
+        items.forEach(p => {
+            const row = document.createElement('div');
+            row.className = 'poi-lista-item';
+            row.innerHTML = `
+                <span class="poi-lista-icono">${iconoCategoria(p.categoria)}</span>
+                <span class="poi-lista-texto">
+                <strong>${p.nombre}</strong>
+                <small>${formatearDistancia(p.distance)}</small>
+                </span>
+            `;
+            cont.appendChild(row);
+        });
+    }
+
+    function refrescarPOI() {
+        const sphere = spheres[currentSphere];
+        if (!sphere) return;
+        renderCategorias();
+        renderListaPOI(sphere);
+        if (markersPlugin) {
+            markersPlugin.clearMarkers();
+            const poiMarkers = createPoiMarkers(sphere);
+            console.log('POI de esta esfera:', sphere.poi?.length, '→ markers creados:', poiMarkers.length);
+            markersPlugin.setMarkers([...createMarkers(sphere), ...poiMarkers]);        }
     }
 
     map.invalidateSize();
@@ -160,6 +234,109 @@ window.IRIS360_iniciarVisor = async function (baseUrl, logoUrl, nombreProyecto) 
         return pitch;
     }
 
+    function normalizarTexto(txt) {
+        return (txt || '').toString().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').trim();
+    }
+
+    const SVG_ICONOS = {
+        hospital: '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 6v12M6 12h12"/></svg>',
+        escuela: '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10l8-5 8 5-8 5-8-5z"/><path d="M8 12.5V17c0 1 1.8 2 4 2s4-1 4-2v-4.5"/></svg>',
+        universidad: '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10l8-5 8 5-8 5-8-5z"/><path d="M8 12.5V17c0 1 1.8 2 4 2s4-1 4-2v-4.5"/><path d="M20 10v5"/></svg>',
+        parque: '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l4 6h-3l4 6h-10l4-6H8z"/><path d="M12 15v6"/></svg>',
+        mercado: '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h16l-1.5 9h-13z"/><path d="M8 8V6a4 4 0 018 0v2"/></svg>',
+        centro_comercial: '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="9" width="16" height="11" rx="1"/><path d="M9 20v-5h6v5"/><path d="M4 9l2-5h12l2 5"/></svg>',
+        plaza: '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="9" width="16" height="11" rx="1"/><path d="M9 20v-5h6v5"/><path d="M4 9l2-5h12l2 5"/></svg>',
+        vialidad: '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M8 3L4 21"/><path d="M16 3l4 18"/><path d="M12 6v3M12 12v3M12 18v1"/></svg>',
+        amenidad: '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="M12 3l2.5 6.5L21 10l-5 4.2L17.5 21 12 17.5 6.5 21 8 14.2 3 10l6.5-.5z"/></svg>',
+        default: '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-6.5-7-11a7 7 0 0114 0c0 4.5-7 11-7 11z"/><circle cx="12" cy="10" r="2.3"/></svg>'
+    };
+
+    function iconoCategoria(categoria) {
+        const key = normalizarTexto(categoria).replace(/\s+/g, '_');
+        return SVG_ICONOS[key] || SVG_ICONOS.default;
+    }
+
+    function anguloDiferencia(a, b) {
+        let diff = Math.abs(a - b);
+        if (diff > Math.PI) diff = 2 * Math.PI - diff;
+        return diff;
+    }
+
+    const CONFIG_LIMITE_CATEGORIA = {
+        parque: { max: 5, separacionMinima: 0.35 }
+        // agrega más categorías aquí si en el futuro se saturan también,
+        // ej: mercado: { max: 4, separacionMinima: 0.3 }
+    };
+
+    function limitarPOIparaEsfera(poiArray) {
+        const porCategoria = {};
+        poiArray.forEach(p => {
+            const key = normalizarTexto(p.categoria);
+            if (!porCategoria[key]) porCategoria[key] = [];
+            porCategoria[key].push(p);
+        });
+
+        let resultado = [];
+        Object.keys(porCategoria).forEach(key => {
+            const lista = porCategoria[key].slice().sort((a, b) => a.distance - b.distance);
+            const config = CONFIG_LIMITE_CATEGORIA[key];
+
+            if (!config) {
+                resultado = resultado.concat(lista);
+                return;
+            }
+
+            const seleccionados = [];
+            for (const punto of lista) {
+                if (seleccionados.length >= config.max) break;
+                const muyCerca = seleccionados.some(s => anguloDiferencia(s.yaw, punto.yaw) < config.separacionMinima);
+                if (!muyCerca) seleccionados.push(punto);
+            }
+            if (seleccionados.length < config.max) {
+                for (const punto of lista) {
+                    if (seleccionados.length >= config.max) break;
+                    if (!seleccionados.includes(punto)) seleccionados.push(punto);
+                }
+            }
+            resultado = resultado.concat(seleccionados);
+        });
+
+        return resultado;
+    }
+
+    function formatearDistancia(m) {
+        return m >= 1000 ? (m / 1000).toFixed(1) + ' km' : Math.round(m) + ' m';
+    }
+
+ function createPoiMarkers(sphere) {
+    if (!sphere?.poi) return [];
+    const limitado = limitarPOIparaEsfera(sphere.poi);
+    return limitado
+        .filter(p => categoriaActiva === 'todos' || normalizarTexto(p.categoria) === categoriaActiva)
+        .map((p, index) => {
+            const html = `
+                <div class="poi-marker" title="${p.nombre} · ${formatearDistancia(p.distance)}">
+                  <div class="poi-marker-pill">
+                    <span class="poi-marker-icon">${iconoCategoria(p.categoria)}</span>
+                  </div>
+                  <div class="poi-marker-linea"></div>
+                  <div class="poi-marker-punto"></div>
+                  <div class="poi-marker-tooltip">
+                    <strong>${p.nombre}</strong>
+                    <small>${formatearDistancia(p.distance)}</small>
+                  </div>
+                </div>
+            `;
+            return {
+                id: `poi_${sphere.nombre}_${index}`,
+                html,
+                size: { width: 46, height: 66 },
+                anchor: 'bottom center',
+                position: { yaw: p.yaw, pitch: calcularPitch(p.distance) }
+            };
+        });
+}
+
     function createMarkers(sphere) {
         if (!sphere?.links || sphere.links.length === 0) return [];
         return sphere.links
@@ -193,20 +370,46 @@ window.IRIS360_iniciarVisor = async function (baseUrl, logoUrl, nombreProyecto) 
     let ultimaVistaMapa = null;
     const mapMarkers = [];
 
-    function actualizarInfoCard(sphere) {
-        infoTitulo.textContent = sphere.titulo || sphere.nombre || '';
-        infoDesc.textContent = sphere.descripcion || '';
+    let conoMarker = null;
+const CALIBRACION_OFFSET = 0; // si el cono apunta mal, ajusta este número (grados)
 
+function actualizarConoVision(yawInternoRad) {
+    const sphere = spheres[currentSphere];
+    if (!sphere?.position || !mapActual) return;
+
+    const yawDeg = yawInternoRad * 180 / Math.PI;
+    const bearing = ((yawDeg + sphere.heading - 180 + CALIBRACION_OFFSET) % 360 + 360) % 360;
+
+    if (!conoMarker) {
+        conoMarker = L.marker([sphere.position.lat, sphere.position.lon], {
+            icon: L.divIcon({
+                className: 'cono-vision-wrapper',
+                html: '<div class="cono-vision-inner"></div>',
+                iconSize: [140, 140],
+                iconAnchor: [70, 70]
+            }),
+            interactive: false,
+            zIndexOffset: -100
+        }).addTo(mapActual);
+    } else {
+        conoMarker.setLatLng([sphere.position.lat, sphere.position.lon]);
+    }
+
+    const el = conoMarker.getElement()?.querySelector('.cono-vision-inner');
+    if (el) el.style.transform = `rotate(${bearing}deg)`;
+}
+
+    function actualizarVideoBtn(sphere) {
         if (sphere.video) {
             infoVideoBtn.style.display = 'inline-flex';
             infoVideoBtn.onclick = () => {
                 videoFrame.innerHTML = `
                     <iframe
-                      width="100%" height="100%"
-                      src="https://www.youtube-nocookie.com/embed/${sphere.video}?autoplay=1"
-                      title="Video" frameborder="0"
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                      allowfullscreen>
+                    width="100%" height="100%"
+                    src="https://www.youtube-nocookie.com/embed/${sphere.video}?autoplay=1"
+                    title="Video" frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen>
                     </iframe>
                 `;
                 videoModal.style.display = 'flex';
@@ -224,8 +427,11 @@ window.IRIS360_iniciarVisor = async function (baseUrl, logoUrl, nombreProyecto) 
 
         isLoading = true;
         currentSphere = id;
+
         marcarSidebarActivo(id);
-        actualizarInfoCard(sphere);
+        actualizarVideoBtn(sphere);
+        renderCategorias();
+        renderListaPOI(sphere);
 
         if (markersPlugin) markersPlugin.clearMarkers();
 
@@ -233,7 +439,7 @@ window.IRIS360_iniciarVisor = async function (baseUrl, logoUrl, nombreProyecto) 
             .then(() => {
                 if (markersPlugin) {
                     markersPlugin.clearMarkers();
-                    markersPlugin.setMarkers(createMarkers(sphere));
+                    markersPlugin.setMarkers([...createMarkers(sphere), ...createPoiMarkers(sphere)]);
                 }
                 if (sphere.initialView) {
                     viewer.rotate({ yaw: sphere.initialView.yaw, pitch: sphere.initialView.pitch || 0 });
@@ -259,6 +465,7 @@ window.IRIS360_iniciarVisor = async function (baseUrl, logoUrl, nombreProyecto) 
 
                     map.setView([sphere.position.lat, sphere.position.lon], 17);
                 }
+                actualizarConoVision(sphere.initialView?.yaw || 0);
                 isLoading = false;
                 setTimeout(() => viewer.resize(), 50);
                 setTimeout(() => map.invalidateSize(), 50);
@@ -268,6 +475,10 @@ window.IRIS360_iniciarVisor = async function (baseUrl, logoUrl, nombreProyecto) 
                 isLoading = false;
             });
     }
+    viewer.addEventListener('position-updated', ({ position }) => {
+        actualizarConoVision(position.yaw);
+    });
+
 
     if (markersPlugin) {
         markersPlugin.addEventListener('select-marker', ({ marker }) => {
