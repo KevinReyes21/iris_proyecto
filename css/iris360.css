@@ -740,7 +740,6 @@ body.visor-360-activo footer { display: none; }
   transition: background 0.2s;
 }
 .poi-panel-toggle:hover { background: rgba(255, 255, 255, 0.2); }
-
 .poi-panel {
   background: rgba(0, 0, 0, 0.55);
   backdrop-filter: blur(16px);
@@ -766,10 +765,6 @@ body.visor-360-activo footer { display: none; }
 .poi-panel.colapsado .poi-panel-header {
   margin-bottom: 0;
 }
-.poi-panel.colapsado .poi-panel-header span {
-  display: none;
-}
-
 .poi-categorias {
   display: flex;
   flex-wrap: wrap;
